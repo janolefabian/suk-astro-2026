@@ -1,0 +1,8 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Arrow from '../components/Arrow.astro';
+import {pathTo} from '../lib/site';
+---
+<Layout title="Seite nicht gefunden – Jongsuk Kim" noindex>
+  <section class="document-page container"><header class="document-header"><p class="eyebrow">404 · Seite nicht gefunden</p><h1>Hier fehlt<br/><em>ein Ton.</em></h1><p class="lead">Diese Seite gibt es leider nicht. Zurück zum Klavierunterricht?</p></header><a class="button button-dark" href={pathTo('/')}>Zur Startseite<Arrow /></a></section>
+</Layout>

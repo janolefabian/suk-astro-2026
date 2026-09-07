@@ -1,0 +1,9 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Recordings from '../../components/Recordings.astro';
+import Arrow from '../../components/Arrow.astro';
+import {pathTo} from '../../lib/site';
+---
+<Layout lang="ko" title="Audio - Klavierunterricht in Berlin" canonicalPath="/ko/audio/" description="피아니스트 김종숙의 슈만, 슈베르트, 베토벤 연주를 감상하세요.">
+  <section class="standalone-music"><div class="document-page container"><header class="document-header"><p class="eyebrow">피아노: 김종숙</p><h1>음악을<br/><em>들어보세요.</em></h1></header><Recordings lang="ko" /><a class="text-link document-back" href={pathTo('/ko/home/#pianistin')}>피아니스트 소개<Arrow /></a></div></section>
+</Layout>

@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Arrow from '../components/Arrow.astro';
+import {pathTo,photo} from '../lib/site';
+---
+<Layout title="Bio - Klavierunterricht in Berlin" canonicalPath="/bio/" description="Jongsuk Kim: Pianistin und Klavierlehrerin in Berlin Prenzlauer Berg. Ausbildung in Seoul, Freiburg und Detmold, Kammermusik, Solokonzerte und Unterricht.">
+  <article class="document-page container">
+    <header class="document-header"><p class="eyebrow">Pianistin · Klavierlehrerin · Berlin</p><h1>Ein Leben<br/><em>mit Musik.</em></h1><p class="lead">Die Biografie von Jongsuk Kim.</p></header>
+    <div class="document-grid"><div class="prose">
+      <p><strong>Jongsuk Kim</strong> wurde 1983 in Seoul, Südkorea, geboren. Sie erhielt ab ihrem achten Lebensjahr Klavierunterricht und entwickelte sich früh zu einer begabten Pianistin. Bereits mit neun Jahren gewann sie beim koreanischen „Jugend Musiziert“-Wettbewerb den zweiten Preis, mit 15 beim „Koreanischen Musik-Wettbewerb“ den ersten Preis und mit 22 den zweiten Preis beim Wettbewerb der „Musikerziehung Zeitung“.</p>
+      <h2>Von Seoul nach Deutschland</h2>
+      <p>Ab 2003 studierte sie an der Sungshin Women’s University bei Prof. Junja Chae. In Deutschland setzte sie ihr Studium mit der „Künstlerischen Ausbildung“ an der Freiburger Musikhochschule bei Prof. Gilead Mishory fort. Es folgte das Konzertexamen bei Prof. Matitjahu Kellig an der Musikhochschule in Detmold.</p>
+      <p>In Detmold schloss sie schließlich ihre Ausbildung mit dem Kammermusikstudium bei Prof. Peter Orth im Jahre 2014 mit Bestnote ab. Im Rahmen dieses Studiums formte sich das Klaviertrio TRIOSAM.</p>
+      <p>Außerdem nahm Jongsuk Kim an Meisterkursen von Prof. Tomislav Nedelkovic-Baynov (2009), Prof. Felix Gottlieb (2010), gemeinsam mit ihrer Violinistin bei Sayako Kusaka und Özgür Aydin für das „Bach-Busoni Festival“ (2011) und von Prof. Friedrich-Wilhelm Schnurr (2012) teil.</p>
+      <h2>Auf der Bühne</h2>
+      <p>Zu ihren Konzertstationen gehören unter anderem:</p>
+      <ul><li>Zwei Klavierabende in der Youngsan Art Hall in Seoul (2006)</li><li>Beethovens Klavierkonzert Nr. 5 mit dem Russischen Kiew Radio Symphony Orchester (2006)</li><li>Das Musikfestival für begabte Jugendliche in Ewoncc in Seoul (2007)</li><li>Das Hindemithfestival in Freiburg (2009)</li><li>Ein Konzert mit ihrem Trio als Ersatz für das Auryn-Quartett (2013)</li><li>Ein Soloabend in der Gumho Art Hall in Seoul (2014)</li><li>Die Uraufführung der „Klaviersolostücke – Thema und Variationen“ von Yunbok Seok (2015)</li><li>Das erklärende Konzert für die Jugend im Sejong Theater in Seoul (2015)</li></ul>
+      <h2>Die Musik weitergeben</h2>
+      <p>Jongsuk Kim tritt solistisch und kammermusikalisch in Südkorea und Berlin auf. Ab 2015 arbeitete sie als Dozentin an der Sungshin Women’s University in Seoul. Seit 2016 setzt sie ihre pädagogische Tätigkeit in Berlin fort.</p>
+      <p>Heute bietet sie <a href={pathTo('/#unterricht')}>Klavierunterricht in Berlin Prenzlauer Berg</a> für Anfänger und Fortgeschrittene sowie professionelle Vorbereitung auf das Musikstudium an.</p>
+      <a class="text-link document-back" href={pathTo('/#kontakt')}>Jongsuk kennenlernen<Arrow diagonal /></a>
+    </div><aside class="document-aside"><img src={photo('header1-1.jpg')} width="1658" height="889" alt="Pianistin Jongsuk Kim" /><a class="text-link" href={pathTo('/wp-content/uploads/2019/02/Vita-2019.pdf')}>Biografie als PDF<Arrow diagonal /></a><a class="text-link" href={pathTo('/#pianistin')}>Hörproben entdecken<Arrow /></a></aside></div>
+  </article>
+</Layout>

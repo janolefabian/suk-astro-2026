@@ -1,0 +1,9 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Recordings from '../components/Recordings.astro';
+import Arrow from '../components/Arrow.astro';
+import {pathTo} from '../lib/site';
+---
+<Layout title="Audio - Klavierunterricht in Berlin" canonicalPath="/audio/" description="Jongsuk Kim am Klavier: Höre Aufnahmen mit Werken von Robert Schumann, Franz Schubert und Ludwig van Beethoven.">
+  <section class="standalone-music"><div class="document-page container"><header class="document-header"><p class="eyebrow">Am Klavier: Jongsuk Kim</p><h1>Einfach mal<br/><em>reinhören.</em></h1></header><Recordings /><a class="text-link document-back" href={pathTo('/#pianistin')}>Mehr über Jongsuk als Pianistin<Arrow /></a></div></section>
+</Layout>

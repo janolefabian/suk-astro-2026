@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Arrow from '../components/Arrow.astro';
+import {pathTo} from '../lib/site';
+import pages from '../data/legacy-pages.json';
+export function getStaticPaths(){return pages.map(page=>({params:{legacy:page.path.replace(/^\/|\/$/g,'')},props:{page}}));}
+const {page}=Astro.props;
+const content=page.html.replaceAll('https://klavierlernen-berlin.de/',pathTo('/'));
+---
+<Layout title={page.title} description={page.description||'Klavierunterricht mit Jongsuk Kim in Berlin Prenzlauer Berg.'} canonicalPath={page.canonical}>
+  <article class="document-page container"><header class="document-header"><p class="eyebrow">Jongsuk Kim · Archiv</p><h1>{page.heading}</h1></header><div class="prose legacy-media legacy-body" set:html={content} /><a class="text-link document-back" href={pathTo('/')}>Zum Klavierunterricht<Arrow /></a></article>
+</Layout>

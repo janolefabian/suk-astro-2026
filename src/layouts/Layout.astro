@@ -1,0 +1,76 @@
+---
+import '../styles/global.css';
+import '@fontsource-variable/manrope';
+import '@fontsource-variable/cormorant-garamond';
+import '@fontsource-variable/cormorant-garamond/wght-italic.css';
+import Arrow from '../components/Arrow.astro';
+import {site,pathTo,canonical,homeFor,isIndexable,type Language} from '../lib/site';
+interface Props {
+  title?:string; description?:string; lang?:Language; canonicalPath?:string;
+  home?:boolean; noindex?:boolean; schema?:Record<string,unknown>;
+}
+const {title=site.title,description=site.description,lang='de',canonicalPath='/',home=false,noindex=false,schema} = Astro.props;
+const ko = lang === 'ko';
+const root = pathTo(homeFor(lang));
+const nav = ko ? [['unterricht','레슨'],['aboutme','소개'],['pianistin','연주'],['preise','레슨비']] : [['unterricht','Unterricht'],['aboutme','Über mich'],['pianistin','Pianistin & Musik'],['preise','Preise']];
+const webSchema = { '@context':'https://schema.org', '@graph':[
+  {'@type':'WebSite','@id':canonical('/#website'),url:canonical('/'),name:'Klavierunterricht in Berlin',description:site.description,inLanguage:['de-DE','ko-KR']},
+  {'@type':'Person','@id':canonical('/#jongsuk-kim'),name:site.name,alternateName:'김종숙',url:canonical('/bio/'),jobTitle:'Pianistin und Klavierlehrerin',image:canonical('/wp-content/uploads/2015/09/jongsuk_kim6994-2-3.jpg')},
+  {'@type':'WebPage','@id':canonical(canonicalPath+'#webpage'),url:canonical(canonicalPath),name:title,description,inLanguage:ko?'ko-KR':'de-DE',isPartOf:{'@id':canonical('/#website')},about:{'@id':canonical('/#jongsuk-kim')}}
+]};
+---
+<!doctype html>
+<html lang={ko ? 'ko' : 'de'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#141413" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={isIndexable&&!noindex ? 'index, follow, max-image-preview:large' : 'noindex, follow'} />
+    <link rel="canonical" href={canonical(canonicalPath)} />
+    {home && <><link rel="alternate" hreflang="de-DE" href={canonical('/')} /><link rel="alternate" hreflang="ko-KR" href={canonical('/ko/home/')} /><link rel="alternate" hreflang="x-default" href={canonical('/')} /></>}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical(canonicalPath)} />
+    <meta property="og:locale" content={ko?'ko_KR':'de_DE'} />
+    <meta property="og:site_name" content="Klavierunterricht in Berlin" />
+    <meta property="og:image" content={canonical('/wp-content/uploads/2015/09/zitat.gif')} />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" type="image/svg+xml" href={pathTo('/favicon.svg')} />
+    <link rel="sitemap" href={pathTo('/sitemap_index.xml')} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(webSchema).replace(/</g,'\\u003c')} />
+    {schema && <script is:inline type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g,'\\u003c')} />}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{ko?'본문으로 바로가기':'Zum Inhalt springen'}</a>
+    <header class="site-header" id="0">
+      <div class="header-inner">
+        <a class="wordmark" href={root} aria-label={ko?'김종숙 · 홈':'Jongsuk Kim · Startseite'}><span>Jongsuk Kim<span class="wordmark-dot">.</span></span><small>{ko?'피아노 · 베를린':'Klavierunterricht · Berlin'}</small></a>
+        <nav class="desktop-nav" aria-label={ko?'메인 메뉴':'Hauptnavigation'}>
+          {nav.map(([id,label])=><a href={`${root}#${id}`}>{label}</a>)}
+        </nav>
+        <div class="header-actions">
+          <nav class="languages" aria-label={ko?'언어':'Sprache'}><a href={pathTo('/')} lang="de" aria-current={!ko?'page':undefined}>DE</a><span>/</span><a href={pathTo('/ko/home/')} lang="ko" aria-current={ko?'page':undefined}>한국어</a></nav>
+          <a class="header-cta" href={`${root}#kontakt`}>{ko?'상담 문의':'Probestunde'}<Arrow diagonal /></a>
+          <details class="mobile-menu">
+            <summary aria-label={ko?'메뉴 열기':'Menü öffnen'}><span></span><span></span></summary>
+            <nav aria-label={ko?'모바일 메뉴':'Mobile Navigation'}>{nav.map(([id,label])=><a href={`${root}#${id}`}>{label}</a>)}<a href={`${root}#kontakt`}>{ko?'상담 문의':'Probestunde anfragen'}<Arrow diagonal /></a></nav>
+          </details>
+        </div>
+      </div>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer">
+      <div class="footer-top container"><a class="wordmark" href={root}><span>Jongsuk Kim<span class="wordmark-dot">.</span></span><small>{ko?'피아노 · 베를린':'Klavierunterricht · Berlin'}</small></a><p>{ko?'함께 음악을 만들어 가요.':'Schön, dass Musik uns verbindet.'}</p><a class="back-top" href="#0" aria-label={ko?'맨 위로':'Nach oben'}>↑</a></div>
+      <div class="footer-bottom container"><span>© {new Date().getFullYear()} Jongsuk Kim</span><nav aria-label={ko?'법적 고지':'Rechtliches'}><a href={pathTo('/bio/')}>Biographie</a><a href={pathTo('/impressum/')}>Impressum</a><a href={pathTo('/datenschutz/')}>Datenschutz</a></nav><span>Berlin · Prenzlauer Berg</span></div>
+    </footer>
+    <script>
+      const menu = document.querySelector<HTMLDetailsElement>('.mobile-menu');
+      menu?.querySelectorAll('a').forEach(link => link.addEventListener('click',()=>{menu.open=false;}));
+      document.addEventListener('keydown',event=>{if(event.key==='Escape'&&menu?.open){menu.open=false;menu.querySelector('summary')?.focus();}});
+      document.addEventListener('click',event=>{if(menu?.open&&event.target instanceof Node&&!menu.contains(event.target))menu.open=false;});
+    </script>
+  </body>
+</html>

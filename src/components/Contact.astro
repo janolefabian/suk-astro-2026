@@ -1,0 +1,51 @@
+---
+import Arrow from './Arrow.astro';
+import {site,mailTo,type Language} from '../lib/site';
+interface Props {lang?:Language}
+const {lang='de'}=Astro.props;
+const ko=lang==='ko';
+---
+<section class="contact-section section-space" id="kontakt">
+  <div class="container contact-grid">
+    <div class="contact-copy">
+      <p class="eyebrow">{ko?'함께 시작해요':'Lass uns anfangen'}</p>
+      <h2>{ko?'첫 음은,':'Der erste Ton?'}<br/><em>{ko?'함께 시작해요.':'Einfach melden.'}</em></h2>
+      <p>{ko?'피아노를 처음 배우거나 다시 시작하고 싶으신가요? 관심과 목표를 간단히 알려주세요. 음대 입시 준비와 반주 문의도 환영합니다.':'Du möchtest Klavier lernen oder wieder einsteigen? Schreib mir ein paar Zeilen über dich und deine musikalischen Wünsche. Dann besprechen wir einen passenden Termin.'}</p>
+      <a class="contact-email" href={mailTo(ko?'피아노 레슨 문의':'Probestunde Klavierunterricht')}>{site.email}<Arrow diagonal /></a>
+      <div class="contact-location"><span class="location-dot"></span><span>Berlin · Prenzlauer Berg<br/><small>{ko?'독일어 & 한국어':'Unterricht auf Deutsch & Koreanisch'}</small></span></div>
+    </div>
+    <div class="request-panel">
+      <span class="eyebrow">{ko?'피아노 레슨 문의':'Deine Probestunde'}</span>
+      <h3>{ko?'어떤 음악을 좋아하세요?':'Was möchtest du spielen?'}</h3>
+      <form id="request-form" data-lang={lang} data-email={site.email} hidden>
+        <div class="form-row"><label>{ko?'레슨 대상':'Der Unterricht ist für'}<select name="student"><option value={ko?'성인':'mich (Erwachsene)'}>{ko?'성인':'mich selbst'}</option><option value={ko?'어린이':'mein Kind'}>{ko?'어린이':'mein Kind'}</option><option value={ko?'독일 음대 입시 준비':'die Studienvorbereitung'}>{ko?'독일 음대 입시 준비':'die Studienvorbereitung'}</option></select></label><label>{ko?'피아노 경험':'Meine Erfahrung'}<select name="experience"><option>{ko?'초보':'Ich fange neu an'}</option><option>{ko?'다시 시작':'Ich steige wieder ein'}</option><option>{ko?'중급 / 고급':'Ich spiele schon Klavier'}</option></select></label></div>
+        <label for="request-message">{ko?'희망 사항 (선택)':'Deine Wünsche'} <small>{ko?'선택':'optional'}</small></label>
+        <textarea id="request-message" name="message" rows="3" maxlength="2000" placeholder={ko?'좋아하는 음악, 목표, 가능한 시간 등을 알려주세요.':'Ein Lieblingsstück, ein Ziel oder wann du Zeit hast …'}></textarea>
+        <button class="button button-dark" type="submit">{ko?'이메일로 문의하기':'Anfrage per E-Mail öffnen'}<Arrow diagonal /></button>
+        <p class="form-note">{ko?'이메일 앱이 열립니다. 작성된 내용을 확인한 뒤 직접 보내주세요.':'Öffnet dein E-Mail-Programm mit deiner Anfrage. Du prüfst und versendest sie dort selbst.'}</p>
+        <p class="form-status" id="request-status" role="status" hidden></p>
+      </form>
+      <div class="request-fallback"><p>{ko?'이메일로 관심과 목표를 알려주세요.':'Schreib mir, für wen du Unterricht suchst und ob du bereits Erfahrung am Klavier hast.'}</p><a class="button button-dark" href={mailTo(ko?'피아노 레슨 문의':'Probestunde Klavierunterricht')}>{ko?'이메일 보내기':'E-Mail schreiben'}<Arrow diagonal /></a></div>
+      <div class="request-foot"><span>{ko?'첫 레슨':'Probestunde'}<strong>30 €</strong></span><span>{ko?'입시 준비 · 별도 상담':'Studienvorbereitung auf Anfrage'}</span></div>
+    </div>
+  </div>
+</section>
+<script>
+  const form=document.querySelector<HTMLFormElement>('#request-form');
+  if(form){
+    form.hidden=false;
+    const fallback=document.querySelector<HTMLElement>('.request-fallback');
+    if(fallback)fallback.hidden=true;
+    form.addEventListener('submit',event=>{
+      event.preventDefault();
+      const data=new FormData(form);
+      const ko=form.dataset.lang==='ko';
+      const subject=ko?'피아노 레슨 문의':'Probestunde Klavierunterricht';
+      const message=String(data.get('message')||'').trim();
+      const body=ko?`안녕하세요, 김종숙 선생님.\n\n피아노 레슨을 문의하고 싶습니다.\n대상: ${data.get('student')}\n경험: ${data.get('experience')}\n${message?'\n'+message+'\n':''}\n가능한 시간과 장소를 알려주시면 감사하겠습니다.\n\n감사합니다.`:`Hallo Jongsuk,\n\nich interessiere mich für eine Probestunde.\nDer Unterricht ist für: ${data.get('student')}\nMeine Erfahrung: ${data.get('experience')}\n${message?'\n'+message+'\n':''}\nWelche Termine sind möglich und wo findet der Unterricht statt?\n\nViele Grüße`;
+      window.location.href=`mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const status=document.querySelector<HTMLElement>('#request-status');
+      if(status){status.hidden=false;status.textContent=ko?'이메일 앱이 열리지 않으면 위 이메일 주소로 직접 보내주세요.':'Falls sich kein E-Mail-Programm öffnet, schreib bitte direkt an die nebenstehende E-Mail-Adresse.';}
+    });
+  }
+</script>

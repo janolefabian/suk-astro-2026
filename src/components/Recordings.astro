@@ -1,0 +1,24 @@
+---
+import {recordings,pathTo,type Language} from '../lib/site';
+interface Props {lang?:Language; compact?:boolean}
+const {lang='de'}=Astro.props;
+---
+<div class="recordings">
+  {recordings.map((recording,index)=><article class="recording">
+    <span class="recording-number">0{index+1}</span>
+    <div class="recording-title"><h3>{recording.composer}</h3><p>{recording.work} · {recording.movement}</p></div>
+    <audio controls preload="none" aria-label={`${recording.composer}: ${recording.work}, ${recording.movement}`}>
+      <source src={pathTo(`/downloads/${recording.file}`)} type="audio/mpeg" />
+      <a href={pathTo(`/downloads/${recording.file}`)}>{lang==='ko'?'오디오 다운로드':'Aufnahme herunterladen'}</a>
+    </audio>
+  </article>)}
+</div>
+<script>
+  document.querySelectorAll('audio').forEach(player=>{
+    player.addEventListener('play',()=>{
+      document.querySelectorAll('audio').forEach(other=>{if(other!==player)other.pause();});
+      player.closest('.recording')?.classList.add('is-playing');
+    });
+    for(const event of ['pause','ended'])player.addEventListener(event,()=>player.closest('.recording')?.classList.remove('is-playing'));
+  });
+</script>

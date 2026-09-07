@@ -1,0 +1,23 @@
+{
+  "name": "suk-astro-2026",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1",
+    "build": "astro build && node scripts/verify-build.mjs",
+    "preview": "astro preview --host 127.0.0.1",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.0",
+    "@fontsource-variable/cormorant-garamond": "^5.2.8",
+    "@fontsource-variable/manrope": "^5.2.8",
+    "astro": "^7.3.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "cheerio": "^1.2.0",
+    "typescript": "^5.9.3"
+  }
+}
