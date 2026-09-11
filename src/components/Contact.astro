@@ -1,6 +1,6 @@
 ---
 import Arrow from './Arrow.astro';
-import {site,mailTo,type Language} from '../lib/site';
+import {site,photo,mailTo,type Language} from '../lib/site';
 interface Props {lang?:Language}
 const {lang='de'}=Astro.props;
 const ko=lang==='ko';
@@ -8,6 +8,7 @@ const ko=lang==='ko';
 <section class="contact-section section-space" id="kontakt">
   <div class="container contact-grid">
     <div class="contact-copy">
+      <img class="contact-portrait" src={photo('jongsuk_kim6994-2-3.jpg')} srcset={`${photo('jongsuk_kim6994-2-3-768x512.jpg')} 768w, ${photo('jongsuk_kim6994-2-3-1024x683.jpg')} 1024w, ${photo('jongsuk_kim6994-2-3.jpg')} 1333w`} sizes="(max-width: 600px) calc(100vw - 40px), 360px" width="1333" height="889" loading="lazy" alt={ko?'밝게 웃는 피아니스트 김종숙':'Jongsuk Kim, Pianistin und Klavierlehrerin in Berlin, lacht'} />
       <p class="eyebrow">{ko?'함께 시작해요':'Lass uns anfangen'}</p>
       <h2>{ko?'첫 음은,':'Der erste Ton?'}<br/><em>{ko?'함께 시작해요.':'Einfach melden.'}</em></h2>
       <p>{ko?'피아노를 처음 배우거나 다시 시작하고 싶으신가요? 관심과 목표를 간단히 알려주세요. 음대 입시 준비와 반주 문의도 환영합니다.':'Du möchtest Klavier lernen oder wieder einsteigen? Schreib mir ein paar Zeilen über dich und deine musikalischen Wünsche. Dann besprechen wir einen passenden Termin.'}</p>

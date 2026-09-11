@@ -35,18 +35,19 @@ const faqs=ko ? [
 <Layout lang={lang} home canonicalPath={homeFor(lang)}>
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-inner container">
-      <div class="hero-copy">
-        <p class="eyebrow"><span class="small-rule"></span>{ko?'김종숙 · 베를린 프렌츠라우어베르크':'Persönlich. Musikalisch. Mit Freude.'}</p>
-        <h1 id="hero-title">{ko ? <><span>베를린</span>{' '}<em>피아노 레슨.</em></> : <><span>Klavierunterricht</span>{' '}<em>in Berlin</em>{' '}<span class="hero-location">Prenzlauer Berg.</span></>}</h1>
-        <p class="hero-description">{ko?'첫 음부터 나만의 음악까지. 피아니스트 김종숙과 함께하는 개인 레슨과 독일 음대 입시 준비.':'Vom ersten Ton bis zu deinem Lieblingsstück. Individueller Klavierunterricht mit Pianistin Jongsuk Kim – für Kinder, Erwachsene und alle, die Musik lieben.'}</p>
-        <a class="button button-light" href="#kontakt">{ko?'상담 문의하기':'Probestunde anfragen'}<Arrow diagonal /></a>
-        <span class="hero-note">{ko?'취미 · 전공 · 독일 음대 입시':'Anfänger & Fortgeschrittene · Probestunde 30 €'}</span>
-      </div>
       <div class="hero-portrait">
-        <img src={photo('jongsuk_kim6994-2-3.jpg')} srcset={`${photo('jongsuk_kim6994-2-3-768x512.jpg')} 768w, ${photo('jongsuk_kim6994-2-3-1024x683.jpg')} 1024w, ${photo('jongsuk_kim6994-2-3.jpg')} 1333w`} sizes="(max-width: 700px) 100vw, 60vw" width="1333" height="889" fetchpriority="high" loading="eager" alt={ko?'밝게 웃는 피아니스트 김종숙':'Jongsuk Kim, Pianistin und Klavierlehrerin in Berlin, lacht'} />
-        <div class="portrait-caption"><span>Jongsuk Kim</span><span lang="ko">김종숙</span></div>
+        <img src={photo('header1-1.jpg')} srcset={`${photo('header1-1-768x412.jpg')} 768w, ${photo('header1-1-1024x549.jpg')} 1024w, ${photo('header1-1.jpg')} 1658w`} sizes="(max-width: 960px) calc(100vw - 40px), 920px" width="1658" height="889" fetchpriority="high" loading="eager" alt={ko?'두 손을 펼친 피아니스트 김종숙':'Pianistin und Klavierlehrerin Jongsuk Kim zeigt ihre Hände'} />
       </div>
-      <a href="#unterricht" class="hero-scroll"><span>↓</span>{ko?'레슨 알아보기':'Den eigenen Klang entdecken'}</a>
+      <div class="hero-copy">
+        <div>
+          <h1 id="hero-title">{ko ? <>베를린 피아노 레슨</> : <>Klavierunterricht in Berlin<br/><span class="hero-location"> Prenzlauer Berg</span></>}</h1>
+          <p class="hero-description">{ko?'첫 음부터 나만의 음악까지. 피아니스트 김종숙과 함께하는 개인 레슨과 독일 음대 입시 준비.':'Vom ersten Ton bis zu deinem Lieblingsstück. Individueller Klavierunterricht mit Pianistin Jongsuk Kim – für Kinder, Erwachsene und alle, die Musik lieben.'}</p>
+        </div>
+        <div class="hero-invite">
+          <a class="button button-dark" href="#kontakt">{ko?'상담 문의하기':'Probestunde anfragen'}<Arrow diagonal /></a>
+          <span class="hero-note">{ko?'취미 · 전공 · 독일 음대 입시':'Anfänger & Fortgeschrittene · 30 €'}</span>
+        </div>
+      </div>
     </div>
   </section>
   <div class="intro-strip"><div class="container"><span>{ko?'어린이부터 성인까지':'Für jedes Alter'}</span><span>{ko?'초보부터 전공자까지':'Für jedes Level'}</span><span>{ko?'독일어 & 한국어':'Deutsch & Koreanisch'}</span><span>{ko?'나만의 음악으로':'Deine Musik im Mittelpunkt'}</span></div></div>
@@ -59,8 +60,8 @@ const faqs=ko ? [
   </section>
   <section class="about-section" id="aboutme">
     <div class="container about-grid">
-      <figure class="about-portrait"><img src={photo('header1-1.jpg')} srcset={`${photo('header1-1-768x412.jpg')} 768w, ${photo('header1-1-1024x549.jpg')} 1024w, ${photo('header1-1.jpg')} 1658w`} sizes="(max-width:600px) 100vw, 45vw" width="1658" height="889" alt={ko?'피아니스트 김종숙':'Pianistin und Klavierlehrerin Jongsuk Kim zeigt ihre Hände'} loading="lazy" /><figcaption>Jongsuk Kim <span lang="ko">김종숙</span></figcaption></figure>
-      <div class="about-copy"><p class="eyebrow">02 / {ko?'피아니스트 소개':'Über mich'}</p><h2>{ko?'안녕하세요,':'Hallo,'}<br/><em>{ko?'김종숙입니다.':'ich bin Jongsuk.'}</em></h2>
+      <div class="about-heading"><p class="eyebrow">02 / {ko?'피아니스트 소개':'Über mich'}</p><h2>{ko?'안녕하세요,':'Hallo,'}<br/><em>{ko?'김종숙입니다.':'ich bin Jongsuk.'}</em></h2><p class="about-signature">Jongsuk Kim <span lang="ko">김종숙</span></p></div>
+      <div class="about-copy">
         {ko ? <><p class="lead">피아니스트 · 피아노 선생님 · 베를린</p><p>고전과 현대를 아우르는 폭넓은 음악적 영역에서 섬세한 터치와 깊이 있는 연주로 주목 받고 있는 피아니스트 김종숙은 Freiburg Musikhochschule에서 석사과정(Künstlerische Ausbildung)을 졸업하였으며, Detmold Musikhochschule에서 최고연주자과정(Konzertexamen)을, 그 후 동대학에서 실내악(Kammermusik)과정을 심사위원 만장일치로 졸업하며 솔로 피아니트스로서 뿐 아니라 앙상블 연주자로서의 기반을 단단히 하였다. (사사: Prof. Gilead Mishory, Prof. Matitjahu Kellig, Prof. Peter Orth)</p></> : <><p class="lead">Pianistin, Klavierlehrerin – und am liebsten mittendrin in der Musik.</p><p>Ich lebe und arbeite als Pianistin und Klavierlehrerin in Berlin Prenzlauer Berg. Geboren und aufgewachsen bin ich in Seoul, Korea. Heute unterrichte ich auf Deutsch und Koreanisch.</p><p>Schon früh habe ich eine Liebe zum Klavier und zur Musik entwickelt. Deshalb bin ich zunächst auf eine musikfördernde Schule und schließlich zum Studium der Musik an die Musikhochschule gegangen. Meine Begeisterung für die klassische Musik führte mich zum Studium nach Deutschland.</p><p>Nach meiner Ausbildung in Freiburg und Detmold lebe ich heute in Berlin und arbeite hier als Lehrerin, Begleiterin und Solopianistin.</p></>}
         <a class="text-link" href={pathTo('/bio/')}>{ko?'전체 프로필 (독일어)':'Mehr über meinen musikalischen Weg'}<Arrow /></a>
       </div>

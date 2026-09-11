@@ -1,8 +1,5 @@
 ---
 import '../styles/global.css';
-import '@fontsource-variable/manrope';
-import '@fontsource-variable/cormorant-garamond';
-import '@fontsource-variable/cormorant-garamond/wght-italic.css';
 import Arrow from '../components/Arrow.astro';
 import {site,pathTo,canonical,homeFor,isIndexable,type Language} from '../lib/site';
 interface Props {
@@ -24,7 +21,7 @@ const webSchema = { '@context':'https://schema.org', '@graph':[
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#141413" />
+    <meta name="theme-color" content="#ffffff" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content={isIndexable&&!noindex ? 'index, follow, max-image-preview:large' : 'noindex, follow'} />
@@ -47,7 +44,7 @@ const webSchema = { '@context':'https://schema.org', '@graph':[
     <a class="skip-link" href="#main">{ko?'본문으로 바로가기':'Zum Inhalt springen'}</a>
     <header class="site-header" id="0">
       <div class="header-inner">
-        <a class="wordmark" href={root} aria-label={ko?'김종숙 · 홈':'Jongsuk Kim · Startseite'}><span>Jongsuk Kim<span class="wordmark-dot">.</span></span><small>{ko?'피아노 · 베를린':'Klavierunterricht · Berlin'}</small></a>
+        <a class="wordmark wordmark-header" href={root} aria-label={ko?'김종숙 · 홈':'Jongsuk Kim · Klavierunterricht · Startseite'}><span>{ko?'피아노 레슨':'Klavierunterricht'}</span><small>{ko?'김종숙 · 베를린 프렌츠라우어베르크':'… in Berlin Prenzlauer Berg'}</small></a>
         <nav class="desktop-nav" aria-label={ko?'메인 메뉴':'Hauptnavigation'}>
           {nav.map(([id,label])=><a href={`${root}#${id}`}>{label}</a>)}
         </nav>
