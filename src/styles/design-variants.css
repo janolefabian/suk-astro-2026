@@ -1,0 +1,196 @@
+@layer reset, base, components, responsive, variants, design-controls;
+
+@layer variants {
+  /* All experiments are scoped to the noindex preview, never the production site. */
+  html[data-design] {
+    --ink: #252525; --muted: #616161; --paper: #fff; --soft: #f6f6f6;
+    --dark: #222; --accent: #292929; --accent-light: #ddd; --line: #dcdcdc;
+    --sans: 'Manrope Variable', Arial, sans-serif;
+    --display: 'Newsreader Variable', Georgia, serif;
+    --heading-weight: 400;
+    --heading-tracking: -.025em;
+    --title-size: clamp(1.875rem, 3.2vw, 2.5rem);
+    --section-title-size: clamp(2rem, 3.6vw, 2.75rem);
+    --small-title-size: 1.5rem;
+    --music-bg: #292929; --music-ink: #fff; --music-muted: #c9c9c9; --music-line: #555;
+    --audio-scheme: dark;
+    --design-panel-height: 0px;
+  }
+  html[data-design] body { padding-bottom: var(--design-panel-height); line-height: 1.8; }
+  html[data-design] ::selection { background: #ddd; color: #111; }
+  html[data-design] :is(h1, h2, h3) { font-family: var(--display); font-weight: var(--heading-weight); letter-spacing: var(--heading-tracking); font-style: normal; }
+  html[data-design] h2 { font-size: var(--section-title-size); line-height: 1.15; }
+  html[data-design] :is(h1, h2, h3) em { font-style: normal; color: inherit; }
+  html[data-design] :is(.hero h1, .document-header h1) { font-size: var(--title-size); line-height: 1.15; }
+  html[data-design] .hero-location { color: var(--muted); font-size: .75em; }
+  html[data-design] .hero-copy { padding-block: 32px 38px; }
+  html[data-design] .hero-description { margin-top: 18px; line-height: 1.8; }
+  html[data-design] :is(.audience h3, .trial-row h3, .ten-card h3, .recording h3) { font-size: var(--small-title-size); line-height: 1.25; }
+  html[data-design] .audience h3 { min-height: 62px; }
+  html[data-design] .eyebrow { text-transform: none; letter-spacing: .04em; }
+  html[data-design] .wordmark > span { font-family: var(--display); letter-spacing: -.025em; font-weight: var(--heading-weight); }
+  html[data-design] .wordmark-header > span { font-size: 1.625rem; text-transform: none; line-height: 1.1; }
+  html[data-design] .wordmark small { font-family: var(--sans); }
+  html[data-design] .wordmark-dot { color: inherit; }
+  html[data-design] .button { font-weight: 500; }
+  html[data-design] .button-dark:hover { background: #444; }
+  html[data-design] .button-accent:hover { background: #444; }
+  html[data-design] .lesson-moments blockquote p { font-family: var(--display); font-size: 1.75rem; font-weight: var(--heading-weight); line-height: 1.45; letter-spacing: -.015em; }
+  html[data-design] .about-signature { font-family: var(--display); font-size: 1.25rem; }
+  html[data-design] .about-signature span { font-family: var(--sans); font-size: .875rem; }
+  html[data-design] .contact-copy h2 { font-size: var(--section-title-size); }
+  html[data-design] .request-panel > h3 { font-size: 1.75rem; }
+  html[data-design] .prose h2 { font-size: 1.875rem; }
+  html[data-design] .prose h3 { font-size: var(--small-title-size); }
+
+  html[data-design] :is(.music-section, .standalone-music) { background: var(--music-bg); color: var(--music-ink); }
+  html[data-design] :is(.music-header .eyebrow, .music-header .text-link, .music-story figcaption, .music-story p:not(.lead), .music-story .text-link, .recordings-heading, .recording-number, .recording p, .standalone-music .document-header > .eyebrow, .standalone-music .document-header > .lead) { color: var(--music-muted); }
+  html[data-design] :is(.recording.is-playing h3, .recording.is-playing .recording-number, .music-section a:hover, .standalone-music .document-back) { color: var(--music-ink); }
+  html[data-design] .recording { border-color: var(--music-line); }
+  html[data-design] .recording audio { color-scheme: var(--audio-scheme); }
+
+  /* 01 — Salon: a quiet contemporary serif, with restrained, open spacing. */
+  html[data-design='salon'] .section-space { padding-block: 82px; }
+  html[data-design='salon'] .about-section { padding-block: 76px; }
+  html[data-design='salon'] .trial-row { border-left-width: 1px; }
+  html[data-design='salon'] .trial-price { font-family: var(--display); font-size: 2.5rem; }
+  html[data-design='salon'] .contact-section { background: #f7f7f7; }
+  html[data-design='salon'] .request-panel { border-color: #e3e3e3; }
+
+  /* 02 — Studio: soft modern sans, gently rounded details and lighter sections. */
+  html[data-design='studio'] {
+    --sans: 'DM Sans Variable', Arial, sans-serif;
+    --display: 'DM Sans Variable', Arial, sans-serif;
+    --heading-weight: 500; --heading-tracking: -.045em;
+    --title-size: clamp(1.75rem, 3vw, 2.25rem);
+    --section-title-size: clamp(1.875rem, 3.4vw, 2.5rem);
+    --small-title-size: 1.25rem;
+    --music-bg: #f3f3f3; --music-ink: #222; --music-muted: #5e5e5e; --music-line: #d3d3d3;
+    --audio-scheme: light;
+  }
+  html[data-design='studio'] .wordmark-header > span { font-size: 1.3125rem; font-weight: 500; }
+  html[data-design='studio'] .hero h1 { line-height: 1.25; }
+  html[data-design='studio'] .hero-location { font-size: .8em; }
+  html[data-design='studio'] .button { border-radius: 8px; padding-inline: 22px; }
+  html[data-design='studio'] .trial-row { background: var(--soft); border-color: transparent; border-radius: 10px; }
+  html[data-design='studio'] .trial-row > a { border-radius: 50%; }
+  html[data-design='studio'] .request-panel { border-radius: 12px; }
+  html[data-design='studio'] .lesson-moments blockquote p { font-size: 1.375rem; font-weight: 400; line-height: 1.65; }
+  html[data-design='studio'] .audience-number { font-weight: 600; }
+  html[data-design='studio'] .about-section { background: #fff; }
+  html[data-design='studio'] .contact-section { background: #f4f4f4; }
+  html[data-design='studio'] .request-panel > h3 { font-size: 1.5rem; }
+
+  /* 03 — Edition: the first serif revisited, upright, stronger and monochrome. */
+  html[data-design='edition'] {
+    --display: 'Cormorant Garamond Variable', Georgia, serif;
+    --heading-weight: 600; --heading-tracking: -.025em;
+    --title-size: clamp(2.125rem, 3.7vw, 2.875rem);
+    --section-title-size: clamp(2.25rem, 4vw, 3.125rem);
+    --small-title-size: 1.625rem;
+    --ink: #181818; --dark: #111;
+    --music-bg: #171717; --music-line: #484848;
+  }
+  html[data-design='edition'] .wordmark-header > span { font-size: 1.75rem; }
+  html[data-design='edition'] .hero-copy { border-bottom: 1px solid #252525; }
+  html[data-design='edition'] .hero-location { color: #444; font-size: .72em; }
+  html[data-design='edition'] .eyebrow { text-transform: uppercase; letter-spacing: .12em; font-size: .75rem; }
+  html[data-design='edition'] .button-dark { color: var(--ink); background: transparent; border: 1px solid var(--ink); border-radius: 0; }
+  html[data-design='edition'] .button-dark:hover { color: white; background: var(--ink); }
+  html[data-design='edition'] .about-section { background: #fff; border-color: #ccc; }
+  html[data-design='edition'] .trial-row { border-left-width: 1px; border-color: #333; }
+  html[data-design='edition'] .trial-price { font-family: var(--display); font-size: 2.875rem; font-weight: 500; }
+  html[data-design='edition'] .audience { border-top-color: #333; }
+  html[data-design='edition'] .lesson-moments blockquote { border-left-color: #222; }
+  html[data-design='edition'] .lesson-moments blockquote p { font-size: 2rem; line-height: 1.3; }
+  html[data-design='edition'] .contact-section { background: #f7f7f7; }
+  html[data-design='edition'] .request-panel { border-color: #aaa; }
+  html[data-design='edition'] .footer-top p { font-family: var(--display); font-size: 1.375rem; }
+
+  /* 04 — Lesart: a more grounded serif, a reading voice instead of a formal one. */
+  html[data-design='lesart'] {
+    --display: 'Lora Variable', Georgia, serif;
+    --heading-weight: 400; --heading-tracking: -.035em;
+    --title-size: clamp(1.75rem, 2.9vw, 2.25rem);
+    --section-title-size: clamp(1.875rem, 3.1vw, 2.375rem);
+    --small-title-size: 1.3125rem;
+    --music-bg: #f7f7f7; --music-ink: #292929; --music-muted: #606060; --music-line: #d7d7d7;
+    --audio-scheme: light;
+  }
+  html[data-design='lesart'] .wordmark-header > span { font-size: 1.375rem; }
+  html[data-design='lesart'] :is(.hero-description, .lead) { font-family: var(--display); font-size: 1.0625rem; line-height: 1.85; letter-spacing: -.015em; }
+  html[data-design='lesart'] .hero-location { font-size: .76em; }
+  html[data-design='lesart'] .lesson-moments blockquote p { font-size: 1.4375rem; line-height: 1.65; }
+  html[data-design='lesart'] .button { border-radius: 4px; }
+  html[data-design='lesart'] .trial-row { background: #f6f6f6; border: 1px solid #e5e5e5; }
+  html[data-design='lesart'] .contact-section { background: white; }
+  html[data-design='lesart'] .request-panel { background: #f8f8f8; }
+  html[data-design='lesart'] .request-panel > h3 { font-size: 1.4375rem; }
+  html[data-design='lesart'] :is(.request-panel select, .request-panel textarea) { background: transparent; }
+
+  html[data-design][lang='ko'] :is(h1, h2, h3) { font-family: var(--sans); font-weight: 500; line-height: 1.4; }
+
+  @media (max-width: 50em) {
+    html[data-design='salon'] :is(.section-space, .about-section) { padding-block: 58px; }
+    html[data-design] .hero-copy { padding-block: 26px 30px; }
+  }
+  @media (max-width: 40em) {
+    html[data-design] .wordmark-header > span { font-size: 1.1875rem; }
+    html[data-design='studio'] .wordmark-header > span { font-size: 1.0625rem; }
+    html[data-design] .wordmark-header small { font-size: .75rem; }
+    html[data-design] .audience h3 { min-height: 0; }
+    html[data-design='salon'] :is(.section-space, .about-section) { padding-block: 48px; }
+    html[data-design='edition'] .lesson-moments blockquote p { font-size: 1.75rem; }
+    html[data-design] .trial-row { flex-wrap: wrap; }
+    html[data-design] .trial-row > div { flex: 1 1 130px; }
+  }
+  @media (max-width: 23em) {
+    html[data-design] .wordmark-header > span { font-size: 1.0625rem; }
+    html[data-design='studio'] .wordmark-header > span { font-size: 1rem; }
+    html[data-design] .wordmark-header small { max-width: 155px; }
+  }
+}
+
+@layer design-controls {
+  /* Stable, neutral comparison controls, independent of the chosen site font. */
+  .design-preview {
+    position: fixed; z-index: 60; bottom: max(14px, env(safe-area-inset-bottom));
+    left: 50%; transform: translateX(-50%); width: min(750px, calc(100% - 28px));
+    color: #242424; font: 400 14px/1.4 Arial, Helvetica, sans-serif;
+  }
+  .design-panel { padding: 14px 16px 12px; background: #fff; border: 1px solid #c9c9c9; border-radius: 12px; box-shadow: 0 5px 32px #00000024; }
+  .design-panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 10px; }
+  .design-panel-heading > span { font-weight: 600; }
+  .design-collapse { display: flex; align-items: center; gap: 8px; color: #626262; background: transparent; padding: 5px 0 5px 8px; font: inherit; white-space: nowrap; }
+  .design-collapse span { font-size: 18px; }
+  .design-choices { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .design-choice { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 64px; min-width: 0; border: 1px solid #d7d7d7; border-radius: 6px; background: #fff; color: #414141; padding: 8px; font: inherit; }
+  .design-choice:hover { background: #f3f3f3; border-color: #777; }
+  .design-choice[aria-pressed='true'] { border-color: #222; background: #222; color: white; }
+  .design-sample { font-size: 32px; line-height: 1.15; letter-spacing: -.04em; font-weight: 400; }
+  [data-font-sample='salon'] { font-family: 'Newsreader Variable', Georgia, serif; }
+  [data-font-sample='studio'] { font-family: 'DM Sans Variable', Arial, sans-serif; }
+  [data-font-sample='edition'] { font-family: 'Cormorant Garamond Variable', Georgia, serif; font-weight: 600; }
+  [data-font-sample='lesart'] { font-family: 'Lora Variable', Georgia, serif; }
+  .design-choice-label { white-space: nowrap; }
+  .design-number { font-size: 12px; opacity: .7; }
+  .design-description { margin: 9px 0 0; font: 400 12px/1.5 Arial, Helvetica, sans-serif; color: #5b5b5b; }
+  .design-reopen { display: flex; align-items: center; gap: 16px; margin-left: auto; padding: 13px 18px; border: 1px solid #ccc; border-radius: 30px; background: #fff; color: #222; box-shadow: 0 3px 18px #00000018; font: inherit; }
+  .design-reopen span { color: #666; font-size: 12px; }
+  .design-preview :focus-visible { outline: 2px solid #222; outline-offset: 3px; }
+  @media (max-width: 40em) {
+    .design-panel { padding: 10px; border-radius: 9px; }
+    .design-panel-heading { gap: 8px; margin-bottom: 8px; }
+    .design-panel-heading > span { font-size: 12px; font-weight: 400; }
+    .design-collapse { padding: 5px 0; }
+    .design-choices { gap: 6px; }
+    .design-choice { flex-direction: column; gap: 2px; padding: 6px 3px; min-height: 67px; }
+    .design-sample { font-size: 28px; }
+    .design-number { display: none; }
+    .design-description { min-height: 36px; margin-top: 8px; }
+  }
+  @media print {
+    .design-preview { display: none !important; }
+    html[data-design] body { padding-bottom: 0; }
+  }
+}

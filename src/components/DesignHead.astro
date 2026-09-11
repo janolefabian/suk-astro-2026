@@ -1,0 +1,24 @@
+---
+import '@fontsource-variable/newsreader';
+import '@fontsource-variable/dm-sans';
+import '@fontsource-variable/cormorant-garamond';
+import '@fontsource-variable/lora';
+import '@fontsource-variable/manrope';
+import '../styles/design-variants.css';
+import { designs, defaultDesign, designStorageKey } from '../lib/designs';
+const designIds = designs.map(design => design.id);
+---
+<!-- Apply a validated preference before the page paints. Preview builds only. -->
+<script is:inline define:vars={{ designIds, defaultDesign, designStorageKey }}>
+  (() => {
+    const requested = new URL(window.location.href).searchParams.get('stil');
+    let saved;
+    try { saved = localStorage.getItem(designStorageKey); } catch {}
+    const selected = designIds.includes(requested)
+      ? requested : designIds.includes(saved) ? saved : defaultDesign;
+    document.documentElement.dataset.design = selected;
+    if (designIds.includes(requested)) {
+      try { localStorage.setItem(designStorageKey, selected); } catch {}
+    }
+  })();
+</script>

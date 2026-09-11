@@ -1,0 +1,102 @@
+---
+import { designs } from '../lib/designs';
+---
+<aside class="design-preview" id="design-preview" lang="de" aria-label="Gestaltungsvarianten vergleichen" hidden>
+  <div class="design-panel" id="design-panel">
+    <div class="design-panel-heading">
+      <span>Vier Entwürfe. Dein Gefühl entscheidet.</span>
+      <button type="button" class="design-collapse" aria-controls="design-panel" data-design-collapse>Einklappen <span aria-hidden="true">⌄</span></button>
+    </div>
+    <div class="design-choices" role="group" aria-label="Stil wählen">
+      {designs.map((design, index) => <button type="button" class="design-choice" data-design-choice={design.id} aria-pressed={index === 0 ? 'true' : 'false'} aria-describedby="design-description">
+        <span class="design-sample" data-font-sample={design.id} aria-hidden="true">Aa</span>
+        <span class="design-choice-label"><span class="design-number">0{index + 1}</span> {design.name}</span>
+      </button>)}
+    </div>
+    <p class="design-description" id="design-description" role="status" aria-live="polite" aria-atomic="true">{designs[0].description}</p>
+  </div>
+  <button class="design-reopen" type="button" data-design-reopen aria-expanded="false" aria-controls="design-panel" hidden>Stile vergleichen <span data-design-current>01 · Salon</span></button>
+</aside>
+<script>
+  import { designs, defaultDesign, designStorageKey, findDesign } from '../lib/designs';
+
+  const preview = document.querySelector<HTMLElement>('#design-preview');
+  if (preview) {
+    const panel = preview.querySelector<HTMLElement>('#design-panel')!;
+    const description = preview.querySelector<HTMLElement>('#design-description')!;
+    const reopen = preview.querySelector<HTMLButtonElement>('[data-design-reopen]')!;
+    const current = preview.querySelector<HTMLElement>('[data-design-current]')!;
+    const choices = [...preview.querySelectorAll<HTMLButtonElement>('[data-design-choice]')];
+    let revision = 0;
+
+    function selectDesign(id: unknown, remember = true) {
+      const design = findDesign(id) || findDesign(defaultDesign)!;
+      // Keep the same visible passage while the new typeface changes text wrapping.
+      const readingLine = Math.min(180, window.innerHeight / 3);
+      const passages = [...document.querySelectorAll<HTMLElement>('main h1, main h2, main h3, main p, main img')];
+      const anchor = passages.find(element => {
+        const rect = element.getBoundingClientRect();
+        return rect.bottom > readingLine && rect.top < window.innerHeight - preview!.offsetHeight;
+      });
+      const previousTop = anchor?.getBoundingClientRect().top;
+      const previousScroll = window.scrollY;
+      const selectionRevision = ++revision;
+
+      document.documentElement.dataset.design = design.id;
+      choices.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.designChoice === design.id)));
+      description.textContent = design.description;
+      current.textContent = `0${designs.indexOf(design) + 1} · ${design.name}`;
+      if (remember) {
+        try { localStorage.setItem(designStorageKey, design.id); } catch {}
+        const url = new URL(window.location.href);
+        url.searchParams.set('stil', design.id);
+        window.history.replaceState(window.history.state, '', url);
+        requestAnimationFrame(() => {
+          void document.fonts.ready.then(() => {
+            if (revision !== selectionRevision || !anchor || previousTop === undefined) return;
+            // Do not pull the reader back if they have already scrolled elsewhere.
+            if (Math.abs(window.scrollY - previousScroll) > 120) return;
+            const difference = anchor.getBoundingClientRect().top - previousTop;
+            if (Math.abs(difference) > 1) window.scrollBy({ top: difference, behavior: 'instant' });
+          });
+        });
+      }
+    }
+
+    choices.forEach((button, index) => {
+      button.addEventListener('click', () => selectDesign(button.dataset.designChoice));
+      button.addEventListener('keydown', event => {
+        const next = event.key === 'ArrowRight' ? (index + 1) % choices.length
+          : event.key === 'ArrowLeft' ? (index + choices.length - 1) % choices.length
+          : event.key === 'Home' ? 0 : event.key === 'End' ? choices.length - 1 : -1;
+        if (next < 0) return;
+        event.preventDefault();
+        choices[next].focus({ preventScroll: true });
+        selectDesign(choices[next].dataset.designChoice);
+      });
+    });
+
+    preview.querySelector('[data-design-collapse]')?.addEventListener('click', () => {
+      panel.hidden = true;
+      reopen.hidden = false;
+      reopen.setAttribute('aria-expanded', 'false');
+      reopen.focus({ preventScroll: true });
+    });
+    reopen.addEventListener('click', () => {
+      panel.hidden = false;
+      reopen.hidden = true;
+      reopen.setAttribute('aria-expanded', 'true');
+      choices.find(button => button.getAttribute('aria-pressed') === 'true')?.focus({ preventScroll: true });
+    });
+
+    selectDesign(document.documentElement.dataset.design, false);
+    preview.hidden = false;
+    const resize = () => document.documentElement.style.setProperty('--design-panel-height', `${preview.offsetHeight + 32}px`);
+    resize();
+    new ResizeObserver(resize).observe(preview);
+    window.addEventListener('popstate', () => {
+      const requested = new URL(window.location.href).searchParams.get('stil');
+      selectDesign(findDesign(requested) ? requested : document.documentElement.dataset.design, false);
+    });
+  }
+</script>

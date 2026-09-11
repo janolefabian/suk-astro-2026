@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
 import Arrow from '../components/Arrow.astro';
+import DesignHead from '../components/DesignHead.astro';
+import DesignPreview from '../components/DesignPreview.astro';
 import {site,pathTo,canonical,homeFor,isIndexable,type Language} from '../lib/site';
 interface Props {
   title?:string; description?:string; lang?:Language; canonicalPath?:string;
@@ -17,11 +19,12 @@ const webSchema = { '@context':'https://schema.org', '@graph':[
 ]};
 ---
 <!doctype html>
-<html lang={ko ? 'ko' : 'de'}>
+<html lang={ko ? 'ko' : 'de'} data-design={!isIndexable ? 'salon' : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
+    {!isIndexable && <DesignHead />}
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content={isIndexable&&!noindex ? 'index, follow, max-image-preview:large' : 'noindex, follow'} />
@@ -63,6 +66,7 @@ const webSchema = { '@context':'https://schema.org', '@graph':[
       <div class="footer-top container"><a class="wordmark" href={root}><span>Jongsuk Kim<span class="wordmark-dot">.</span></span><small>{ko?'피아노 · 베를린':'Klavierunterricht · Berlin'}</small></a><p>{ko?'함께 음악을 만들어 가요.':'Schön, dass Musik uns verbindet.'}</p><a class="back-top" href="#0" aria-label={ko?'맨 위로':'Nach oben'}>↑</a></div>
       <div class="footer-bottom container"><span>© {new Date().getFullYear()} Jongsuk Kim</span><nav aria-label={ko?'법적 고지':'Rechtliches'}><a href={pathTo('/bio/')}>Biographie</a><a href={pathTo('/impressum/')}>Impressum</a><a href={pathTo('/datenschutz/')}>Datenschutz</a></nav><span>Berlin · Prenzlauer Berg</span></div>
     </footer>
+    {!isIndexable && <DesignPreview />}
     <script>
       const menu = document.querySelector<HTMLDetailsElement>('.mobile-menu');
       menu?.querySelectorAll('a').forEach(link => link.addEventListener('click',()=>{menu.open=false;}));
