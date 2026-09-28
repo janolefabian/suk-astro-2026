@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev --host 127.0.0.1",
-    "build": "astro build && node scripts/verify-build.mjs && node scripts/verify-design-preview.mjs",
+    "build": "astro build && node scripts/verify-build.mjs && node scripts/verify-design-preview.mjs && node scripts/verify-kim-feedback.mjs",
     "preview": "astro preview --host 127.0.0.1",
     "check": "astro check"
   },
