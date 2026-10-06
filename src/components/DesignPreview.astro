@@ -1,12 +1,19 @@
 ---
 import { designs } from '../lib/designs';
+import {homeFor, comparisonFor, pathTo, type Language} from '../lib/site';
+interface Props {lang?: Language; calm?: boolean}
+const {lang = 'de', calm = false} = Astro.props;
 ---
-<aside class="design-preview" id="design-preview" lang="de" aria-label="Gestaltungsvarianten vergleichen" hidden>
+<aside class="design-preview" id="design-preview" lang="de" aria-label="Gestaltungsvarianten vergleichen" data-layout-label={calm ? 'Ruhiger' : 'Bisher'} hidden>
   <div class="design-panel" id="design-panel">
     <div class="design-panel-heading">
-      <span>Vier Entwürfe. Dein Gefühl entscheidet.</span>
+      <span>Seite & Stil vergleichen</span>
       <button type="button" class="design-collapse" aria-controls="design-panel" data-design-collapse>Einklappen <span aria-hidden="true">⌄</span></button>
     </div>
+    <nav class="layout-choices" aria-label="Seitenumfang vergleichen">
+      <a href={`${pathTo(homeFor(lang))}?stil=salon`} data-layout-path={pathTo(homeFor(lang))} aria-current={!calm ? 'page' : undefined}>Bisher</a>
+      <a href={`${pathTo(comparisonFor(lang))}?stil=salon`} data-layout-path={pathTo(comparisonFor(lang))} aria-current={calm ? 'page' : undefined}>Ruhiger</a>
+    </nav>
     <div class="design-choices" role="group" aria-label="Stil wählen">
       {designs.map((design, index) => <button type="button" class="design-choice" data-design-choice={design.id} aria-pressed={index === 0 ? 'true' : 'false'} aria-describedby="design-description">
         <span class="design-sample" data-font-sample={design.id} aria-hidden="true">Aa</span>
@@ -15,10 +22,10 @@ import { designs } from '../lib/designs';
     </div>
     <p class="design-description" id="design-description" role="status" aria-live="polite" aria-atomic="true">{designs[0].description}</p>
   </div>
-  <button class="design-reopen" type="button" data-design-reopen aria-expanded="false" aria-controls="design-panel" hidden>Stile vergleichen <span data-design-current>01 · Salon</span></button>
+  <button class="design-reopen" type="button" data-design-reopen aria-expanded="false" aria-controls="design-panel" hidden>Seite & Stil <span data-design-current>{calm ? 'Ruhiger' : 'Bisher'} · Salon</span></button>
 </aside>
 <script>
-  import { designs, defaultDesign, designStorageKey, findDesign } from '../lib/designs';
+  import { defaultDesign, designStorageKey, findDesign } from '../lib/designs';
 
   const preview = document.querySelector<HTMLElement>('#design-preview');
   if (preview) {
@@ -27,6 +34,8 @@ import { designs } from '../lib/designs';
     const reopen = preview.querySelector<HTMLButtonElement>('[data-design-reopen]')!;
     const current = preview.querySelector<HTMLElement>('[data-design-current]')!;
     const choices = [...preview.querySelectorAll<HTMLButtonElement>('[data-design-choice]')];
+    const layoutLinks = [...preview.querySelectorAll<HTMLAnchorElement>('[data-layout-path]')];
+    const collapsedKey = 'suk-design-panel-collapsed-v1';
     let revision = 0;
 
     function selectDesign(id: unknown, remember = true) {
@@ -45,7 +54,12 @@ import { designs } from '../lib/designs';
       document.documentElement.dataset.design = design.id;
       choices.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.designChoice === design.id)));
       description.textContent = design.description;
-      current.textContent = `0${designs.indexOf(design) + 1} · ${design.name}`;
+      current.textContent = `${preview!.dataset.layoutLabel} · ${design.name}`;
+      layoutLinks.forEach(link => {
+        const url = new URL(link.dataset.layoutPath!, window.location.origin);
+        url.searchParams.set('stil', design.id);
+        link.href = url.href;
+      });
       if (remember) {
         try { localStorage.setItem(designStorageKey, design.id); } catch {}
         const url = new URL(window.location.href);
@@ -76,20 +90,41 @@ import { designs } from '../lib/designs';
       });
     });
 
+    // When comparing at a section, open the corresponding section in the other version.
+    // The layout choice is never remembered as a new default: the original URL stays original.
+    layoutLinks.forEach(link => link.addEventListener('click', () => {
+      const readingLine = Math.min(180, window.innerHeight / 3);
+      const section = ['unterricht', 'aboutme', 'preise', 'pianistin', 'kontakt'].find(id => {
+        const rect = document.getElementById(id)?.getBoundingClientRect();
+        return rect && rect.top <= readingLine && rect.bottom > readingLine;
+      });
+      const url = new URL(link.href);
+      if (section) url.hash = section;
+      link.href = url.href;
+    }));
+
     preview.querySelector('[data-design-collapse]')?.addEventListener('click', () => {
       panel.hidden = true;
       reopen.hidden = false;
       reopen.setAttribute('aria-expanded', 'false');
+      try { sessionStorage.setItem(collapsedKey, 'true'); } catch {}
       reopen.focus({ preventScroll: true });
     });
     reopen.addEventListener('click', () => {
       panel.hidden = false;
       reopen.hidden = true;
       reopen.setAttribute('aria-expanded', 'true');
+      try { sessionStorage.removeItem(collapsedKey); } catch {}
       choices.find(button => button.getAttribute('aria-pressed') === 'true')?.focus({ preventScroll: true });
     });
 
     selectDesign(document.documentElement.dataset.design, false);
+    try {
+      if (sessionStorage.getItem(collapsedKey) === 'true') {
+        panel.hidden = true;
+        reopen.hidden = false;
+      }
+    } catch {}
     preview.hidden = false;
     const resize = () => document.documentElement.style.setProperty('--design-panel-height', `${preview.offsetHeight + 32}px`);
     resize();

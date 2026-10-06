@@ -14,6 +14,7 @@ export const pathTo = (path = '/') => `${import.meta.env.BASE_URL.replace(/\/$/,
 export const canonical = (path = '/') => new URL(path, site.origin).href;
 export const mailTo = (subject = 'Probestunde Klavierunterricht') => `mailto:${site.email}?subject=${encodeURIComponent(subject)}`;
 export const homeFor = (lang:Language) => lang === 'ko' ? '/ko/home/' : '/';
+export const comparisonFor = (lang:Language) => lang === 'ko' ? '/vergleich/ko/' : '/vergleich/';
 export const photo = (name:string) => pathTo(`/wp-content/uploads/2015/09/${name}`);
 export const isIndexable = import.meta.env.PUBLIC_INDEXABLE === 'true';
 

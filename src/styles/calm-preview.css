@@ -1,0 +1,64 @@
+@layer variants {
+  /* Review-only: never changes the original Home component or other pages. */
+  [data-layout='calm'] .calm-home .section-space,
+  [data-layout='calm'] .calm-home .about-section { padding-block: 64px; }
+  [data-layout='calm'] .calm-home h2 { font-size: clamp(1.75rem, 3vw, 2.25rem); line-height: 1.2; }
+  [data-layout='calm'] .calm-home .hero-copy { gap: 32px; }
+  [data-layout='calm'] .calm-home .hero-description { margin-top: 14px; max-width: 480px; }
+  .calm-two-columns, .calm-lesson { display: grid; grid-template-columns: .8fr 1.2fr; gap: 64px; align-items: start; }
+  .calm-lesson-images { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 320px; margin-top: 30px; }
+  .calm-lesson-images img { width: 100%; }
+  .calm-copy { max-width: 600px; }
+  .calm-copy > .text-link { margin-top: 16px; }
+  .calm-questions { margin-top: 28px; }
+  [data-layout='calm'] .calm-questions h3 { font-family: var(--sans); font-size: .875rem; font-weight: 600; letter-spacing: 0; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+  .calm-questions .faq summary { font-size: .875rem; padding-block: 13px; gap: 16px; }
+  .calm-questions .faq > div { font-size: .875rem; padding-bottom: 16px; }
+  .calm-section-intro > .text-link { margin-top: 22px; }
+  .calm-price-table { width: 100%; border-collapse: collapse; }
+  .calm-price-table caption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .calm-price-table th, .calm-price-table td { font-weight: 400; padding-block: 13px; border-bottom: 1px solid var(--line); }
+  .calm-price-table th { text-align: left; }
+  .calm-price-table td { text-align: right; white-space: nowrap; padding-left: 24px; }
+  .calm-price-table .calm-trial th, .calm-price-table .calm-trial td { font-weight: 650; padding-top: 0; }
+  .calm-ten-card { font-size: .875rem; color: var(--muted); margin-top: 22px; }
+  .calm-ten-card strong { color: var(--ink); font-weight: 600; }
+  .calm-specialist { font-size: 1rem; line-height: 1.65; margin-top: 24px; }
+  .calm-specialist strong { font-weight: 650; }
+  [data-layout='calm'] .calm-home .music-story { margin-block: 28px 36px; gap: 40px; }
+  [data-layout='calm'] .calm-home .album-release { grid-template-columns: 180px minmax(0, 1fr); gap: 32px; padding-block: 28px; margin-bottom: 28px; }
+  [data-layout='calm'] .calm-home .album-copy h3 { font-size: 1.75rem; margin-top: 8px; }
+  [data-layout='calm'] .calm-home .album-artists { margin-top: 10px; }
+  [data-layout='calm'] .calm-home .album-copy .text-link { margin-top: 12px; }
+  [data-layout='calm'] .calm-recordings-title { font-family: var(--sans); font-size: .875rem; font-weight: 500; letter-spacing: 0; margin-bottom: 14px; color: var(--music-muted); }
+  [data-layout='calm'] .calm-home .recording { grid-template-columns: minmax(0, 1fr) 270px; padding-block: 18px; }
+  [data-layout='calm'] .calm-home .recording-number { display: none; }
+  [data-layout='calm'] .calm-home .recording h3 { font-size: 1.25rem; }
+  .calm-contact-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 64px; align-items: center; }
+  [data-layout='calm'] .calm-home .contact-portrait { width: 320px; margin: 0; }
+  .calm-contact-copy > p { margin-top: 18px; }
+  .calm-contact-copy .calm-contact-note { font-size: .75rem; color: var(--muted); margin-top: 16px; }
+
+  @media (max-width: 50em) {
+    .calm-two-columns, .calm-lesson, .calm-contact-grid { gap: 32px; }
+    [data-layout='calm'] .calm-home .section-space,
+    [data-layout='calm'] .calm-home .about-section { padding-block: 48px; }
+    [data-layout='calm'] .calm-home .hero-copy { gap: 22px; }
+    [data-layout='calm'] .calm-home .hero-copy > .button { justify-self: start; }
+    [data-layout='calm'] .calm-home .recording { grid-template-columns: minmax(0, 1fr) 220px; }
+    [data-layout='calm'] .calm-home .music-story { gap: 28px; }
+  }
+  @media (max-width: 40em) {
+    .calm-two-columns, .calm-lesson, .calm-contact-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    .calm-lesson-images { max-width: 240px; margin-top: 22px; }
+    [data-layout='calm'] .calm-home .section-space,
+    [data-layout='calm'] .calm-home .about-section { padding-block: 40px; }
+    [data-layout='calm'] .calm-home .music-story { margin-block: 24px 28px; gap: 24px; }
+    [data-layout='calm'] .calm-home .album-release { grid-template-columns: minmax(0, 1fr); gap: 20px; padding-block: 24px; }
+    [data-layout='calm'] .calm-home .album-cover { max-width: 180px; }
+    [data-layout='calm'] .calm-home .recording { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+    [data-layout='calm'] .calm-home .recording audio { grid-column: 1; margin-top: 0; max-width: 100%; }
+    [data-layout='calm'] .calm-home .contact-portrait { width: 280px; }
+    .calm-section-intro > .text-link { margin-top: 14px; }
+  }
+}

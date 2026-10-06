@@ -1,0 +1,15 @@
+---
+import CalmHome from '../../components/CalmHome.astro';
+import {isIndexable, type Language} from '../../lib/site';
+
+// This is a review-only alternative, not an additional production landing page.
+export function getStaticPaths() {
+  return isIndexable ? [] : [
+    {params: {language: undefined}, props: {lang: 'de'}},
+    {params: {language: 'ko'}, props: {lang: 'ko'}},
+  ];
+}
+interface Props {lang: Language}
+const {lang} = Astro.props;
+---
+<CalmHome lang={lang} />

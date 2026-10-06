@@ -39,6 +39,29 @@ Der Workflow bezieht den Basispfad automatisch aus GitHub Pages. Damit funktioni
 
 ## SEO und Freischaltung
 
+### Vergleichsfassung (6. Oktober 2026)
+
+Die ruhigere Inhaltsfassung ist noch **nicht übernommen**. Sie liegt in der
+GitHub-Pages-Vorschau separat unter `/vergleich/` und auf Koreanisch unter
+`/vergleich/ko/`. Die bisherigen Startseiten bleiben unverändert. Das bestehende
+Stil-Auswahlfeld enthält zusätzlich „Bisher / Ruhiger“; alle vier Schriftstile
+stehen für beide Fassungen zur Verfügung. Der gewählte Schriftstil bleibt beim
+Wechsel erhalten, die Inhaltsfassung wird dagegen nicht als neue Voreinstellung
+gespeichert. Beim Umschalten innerhalb eines Abschnitts wird dessen Anker übernommen.
+
+`src/components/CalmHome.astro` und `src/styles/calm-preview.css` enthalten das
+isolierte Experiment. Es kürzt Wiederholungen, vereinfacht Preise und Kontakt und
+behält die Fotos, beide Spezialangebote, CD und alle Hörproben bei. Die Absage-
+und 10er-Karten-Regeln bleiben erhalten. Die Stil-Auswahl ist weiterhin einklappbar;
+ihr eingeklappter Zustand bleibt während derselben Browsersitzung erhalten.
+
+Die Vergleichsseiten sind `noindex`, nicht in der Sitemap und werden bei
+`PUBLIC_INDEXABLE=true` gar nicht gebaut. Erst nach Auswahl durch den Nutzer
+sollen einzelne Änderungen auf die bisherigen Startseiten übertragen werden.
+`scripts/verify-calm-preview.mjs` prüft diese Trennung bei jedem Build.
+
+### Freischaltung der Hauptwebsite
+
 Standardmäßig enthalten alle HTML-Seiten `noindex, follow`. Diese Einstellung schützt die bestehende Domain vor einer konkurrierenden Vorschau. Die Canonicals verweisen weiterhin auf `https://klavierlernen-berlin.de`. Die Website auf der bisherigen Domain wurde für diesen Relaunch nicht verändert.
 
 **Die Vorschau nicht mit `noindex` als fertige Hauptwebsite einsetzen.** Erst beim abgestimmten Domainwechsel die GitHub-Repositoryvariable `PUBLIC_INDEXABLE` auf `true` setzen und den Workflow neu ausführen. Alle Schritte stehen in `docs/SEO-MIGRATION.md`.

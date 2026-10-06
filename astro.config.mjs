@@ -18,7 +18,7 @@ export default defineConfig({
   integrations: [sitemap({
     filter: (page) => {
       const pathname=withoutBase(new URL(page).pathname);
-      return pathname!=='/404/'&&!pathname.endsWith('/404.html')&&pathname!=='/ko/'&&!nonCanonicalPages.has(pathname);
+      return pathname!=='/404/'&&!pathname.endsWith('/404.html')&&pathname!=='/ko/'&&!pathname.startsWith('/vergleich/')&&!nonCanonicalPages.has(pathname);
     },
     serialize(item) {
       const pathname = new URL(item.url).pathname;

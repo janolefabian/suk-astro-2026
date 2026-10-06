@@ -1,8 +1,8 @@
 ---
 import Arrow from './Arrow.astro';
 import {pathTo, type Language} from '../lib/site';
-interface Props {lang?: Language}
-const {lang = 'de'} = Astro.props;
+interface Props {lang?: Language; concise?: boolean}
+const {lang = 'de', concise = false} = Astro.props;
 const ko = lang === 'ko';
 ---
 <article class="album-release" id="lost-beauty" aria-labelledby="album-title">
@@ -11,7 +11,7 @@ const ko = lang === 'ko';
     <p class="eyebrow">{ko?'앨범':'Album'} · 2024 · Solaire Records</p>
     <h3 id="album-title" lang="en">Lost Beauty</h3>
     <p class="album-artists">Szymon Marciniak · {ko?'콘트라베이스':'Kontrabass'}<br />{ko?'김종숙 · 피아노':'Jongsuk Kim · Klavier'}</p>
-    <p class="album-description">{ko?'콘트라베이시스트 Szymon Marciniak과 함께한 실내악 앨범입니다. 2024년 Solaire Records에서 발매되었습니다.':'Kammermusik für Kontrabass und Klavier: Gemeinsam mit Szymon Marciniak ist 2024 dieses Album bei Solaire Records erschienen.'}</p>
+    {!concise && <p class="album-description">{ko?'콘트라베이시스트 Szymon Marciniak과 함께한 실내악 앨범입니다. 2024년 Solaire Records에서 발매되었습니다.':'Kammermusik für Kontrabass und Klavier: Gemeinsam mit Szymon Marciniak ist 2024 dieses Album bei Solaire Records erschienen.'}</p>}
     <a class="text-link" href="https://szymonmarciniak.bandcamp.com/album/lost-beauty-audiophile-edition">{ko?'Bandcamp에서 앨범 듣기':'Album auf Bandcamp anhören'}<Arrow diagonal /></a>
   </div>
 </article>
