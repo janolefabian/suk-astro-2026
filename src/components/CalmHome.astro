@@ -36,13 +36,18 @@ const ko = lang === 'ko';
       </div>
       <div class="calm-copy">
         {ko ? <>
-          <p>피아노를 처음 배우는 어린이부터 다시 시작하는 성인, 전공자까지 환영합니다. 각자의 관심과 수준에 맞춰 함께 음악을 만들어 갑니다.</p>
-          <p>취미 레슨뿐 아니라 독일 음대 입시 준비, 실내악과 반주도 함께합니다. 가장 중요한 것은 음악을 즐기는 마음입니다.</p>
-          <p>음대 입시 상담에서는 학교별 특징과 지원서 작성, 교수와의 연락 및 레슨, 독일어 통역과 과외 연결 등 각자의 상황에 맞는 준비를 도와드립니다.</p>
+          <p>피아노를 처음 배우는 어린이부터 다시 시작하는 성인, 전공자까지 환영합니다. 각자의 관심과 수준에 맞춰 함께 음악을 만들어 갑니다. 가장 중요한 것은 음악을 즐기는 마음입니다.</p>
         </> : <>
           <p>Ich unterrichte Kinder, Jugendliche und Erwachsene – vom ersten Ton bis zum fortgeschrittenen Klavierspiel. Auch nach einer längeren Pause bist du willkommen. Es gibt kein zu alt und (fast) kein zu jung.</p>
-          <p>Ob Mozart oder ein Song von Adele: Wir orientieren uns an deiner Musik und deinen Wünschen. Wichtig ist vor allem, dass es Spaß macht. Für angehende Musikstudierende biete ich außerdem professionelle Studienvorbereitung an.</p>
+          <p>Ob Mozart oder ein Song von Adele: Wir orientieren uns an deiner Musik und deinen Wünschen. Wichtig ist vor allem, dass es Spaß macht.</p>
         </>}
+        <section class="calm-advanced" id="fortgeschrittene" aria-labelledby="advanced-title">
+          <h3 id="advanced-title">{ko?'중급·고급 & 음대 입시':'Fortgeschrittene & Studium'}</h3>
+          {ko ? <>
+            <p>피아노 연주를 더 깊이 있게 발전시키고 싶으신가요? 연주 실력의 심화, 실내악, 독일 음대 학사·석사 입시 준비를 함께합니다.</p>
+            <p>음대 입시 상담에서는 학교별 특징과 지원서 작성, 교수와의 연락 및 레슨, 독일어 통역과 과외 연결 등 각자의 상황에 맞는 준비를 도와드립니다.</p>
+          </> : <p>Du spielst bereits Klavier und möchtest musikalisch weiterkommen? Ich begleite dich bei der Vertiefung deines Spiels, in der Kammermusik und bei der Vorbereitung auf ein Bachelor- oder Masterstudium.</p>}
+        </section>
         <div class="calm-questions" id="fragen">
           <h3>{ko?'레슨 안내':'Gut zu wissen'}</h3>
           <details class="faq">

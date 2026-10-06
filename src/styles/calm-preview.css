@@ -10,6 +10,9 @@
   .calm-lesson-images img { width: 100%; }
   .calm-copy { max-width: 600px; }
   .calm-copy > .text-link { margin-top: 16px; }
+  .calm-advanced { margin-top: 28px; }
+  [data-layout='calm'] .calm-advanced h3 { font-size: 1.5rem; line-height: 1.3; }
+  .calm-advanced > p { margin-top: 12px; }
   .calm-questions { margin-top: 28px; }
   [data-layout='calm'] .calm-questions h3 { font-family: var(--sans); font-size: .875rem; font-weight: 600; letter-spacing: 0; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
   .calm-questions .faq summary { font-size: .875rem; padding-block: 13px; gap: 16px; }

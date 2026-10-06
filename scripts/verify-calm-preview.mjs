@@ -30,6 +30,11 @@ for (const variant of variants) {
   assert.equal(calm('.calm-home').length, 1);
   assert.equal(calm('.audience, .intro-strip, #request-form, .faq-section').length, 0);
   assert.equal(calm('.calm-questions details').length, 2);
+  assert.equal(calm('#unterricht .calm-advanced').length, 1, 'Keep advanced lessons and study preparation visible in the teaching section');
+  assert.equal(calm('.calm-advanced h3').text(), variant.lang === 'de' ? 'Fortgeschrittene & Studium' : '중급·고급 & 음대 입시');
+  assert.equal(calm('.calm-advanced details').length, 0, 'Do not hide this teaching focus in an accordion');
+  assert.match(calm('.calm-advanced').text(), variant.lang === 'de' ? /Bachelor- oder Masterstudium/ : /학사·석사/);
+  if (variant.lang === 'de') assert.doesNotMatch(calm('#unterricht').text(), /Für angehende Musikstudierende biete ich außerdem/);
   assert.equal(calm('.calm-specialist strong').length, 2, 'Preserve the services highlighted at Kim’s request');
   assert.deepEqual(calm('.calm-price-table td').toArray().map(el => calm(el).text().trim()), ['30 €', '45 €', '50 €', '60 €']);
   assert.equal(calm('.music-section audio').length, 3);
