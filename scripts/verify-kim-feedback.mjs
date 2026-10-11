@@ -9,13 +9,15 @@ const ko = await page('ko/home/index.html');
 const bio = await page('bio/index.html');
 
 for (const $ of [de, ko]) {
-  assert.doesNotMatch($('.lesson-intro, .faq-list').text(), /jazz|재즈/i);
-  assert.equal($('.price-extra strong').length, 2, 'Both specialist services need visible emphasis');
+  assert.equal($('.contact-email').text().trim(), 'jongsuk.kim83@gmail.com');
+  assert.ok($('.contact-email').attr('href').startsWith('mailto:jongsuk.kim83@gmail.com?'));
+  assert.doesNotMatch($('#unterricht, .faq-list').text(), /jazz|재즈/i);
+  assert.equal($('.price-extra strong, .calm-specialist strong').length, 2, 'Both specialist services need visible emphasis');
   assert.equal($('a[href*="Vita-2019.pdf"]').length, 0);
   assert.equal($('.hero-portrait img[src$="header1-1.jpg"]').length, 1);
   assert.equal($('.music-story img[src$="pianistin_foto.jpg"]').length, 1);
   assert.equal($('.music-section audio').length, 3, 'Existing recordings must stay');
-  assert.equal($('.about-copy a[href$="/bio/"]').length, 1, 'Keep the biography accessible');
+  assert.equal($('#aboutme a[href$="/bio/"]').length, 1, 'Keep the biography accessible');
   assert.equal($('.music-section .album-release').length, 1, 'One compact album block inside the existing music section');
   assert.equal($('.album-release #album-title').text(), 'Lost Beauty');
   const cover = $('.album-release img');
@@ -26,6 +28,11 @@ for (const $ of [de, ko]) {
   assert.ok(cover.attr('alt').length > 10, 'Album cover needs descriptive alternative text');
   assert.equal($('.album-release a').attr('href'), 'https://szymonmarciniak.bandcamp.com/album/lost-beauty-audiophile-edition');
   assert.equal($('.album-release iframe, .album-release script, .album-release audio').length, 0, 'No external player should load before a click');
+}
+for (const route of ['index.html', 'ko/index.html', 'ko/home/index.html', 'datenschutz/index.html', 'impressum/index.html']) {
+  const html = await readFile(new URL(route, dist), 'utf8');
+  assert.doesNotMatch(html, /(?:kontakt|info)@klavierschule\.berlin/, `${route}: outdated forwarding address`);
+  assert.match(html, /mailto:jongsuk\.kim83@gmail\.com/, `${route}: direct email contact missing`);
 }
 assert.equal(de('.album-release a').text().trim(), 'Album auf Bandcamp anhören');
 assert.equal(ko('.album-release a').text().trim(), 'Bandcamp에서 앨범 듣기');

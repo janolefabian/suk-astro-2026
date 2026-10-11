@@ -1,4 +1,6 @@
 ---
 import Home from '../../../components/Home.astro';
+import CalmHome from '../../../components/CalmHome.astro';
+import {isIndexable} from '../../../lib/site';
 ---
-<Home lang="ko" />
+{isIndexable ? <CalmHome lang="ko" /> : <Home lang="ko" />}

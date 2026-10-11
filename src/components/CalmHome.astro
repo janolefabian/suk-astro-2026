@@ -5,11 +5,11 @@ import Album from './Album.astro';
 import Recordings from './Recordings.astro';
 import {site, pathTo, photo, homeFor, mailTo, type Language} from '../lib/site';
 import '../styles/calm-preview.css';
-interface Props {lang?: Language}
-const {lang = 'de'} = Astro.props;
+interface Props {lang?: Language; comparison?: boolean}
+const {lang = 'de', comparison = false} = Astro.props;
 const ko = lang === 'ko';
 ---
-<Layout lang={lang} home calm noindex canonicalPath={homeFor(lang)}>
+<Layout lang={lang} home calm comparison={comparison} noindex={comparison} canonicalPath={homeFor(lang)}>
   <div class="calm-home">
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-inner container">

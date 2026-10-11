@@ -1,7 +1,7 @@
 @layer reset, base, components, responsive, variants, design-controls;
 
 @layer variants {
-  /* All experiments are scoped to the noindex preview, never the production site. */
+  /* Salon is the fixed live design; other choices are enabled only in previews. */
   html[data-design] {
     --ink: #252525; --muted: #616161; --paper: #fff; --soft: #f6f6f6;
     --dark: #222; --accent: #292929; --accent-light: #ddd; --line: #dcdcdc;

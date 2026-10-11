@@ -13,9 +13,18 @@ const indexable = process.env.PUBLIC_INDEXABLE === 'true';
 
 if (indexable) {
   assert.equal(page('#design-preview').length, 0, 'Comparison controls leaked into production');
-  assert.equal(page('html').attr('data-design'), undefined, 'Experimental theme leaked into production');
+  assert.equal(page('html').attr('data-design'), 'salon', 'The approved Salon design must be permanent');
   assert.equal(init, undefined, 'Preview preference script leaked into production');
-  console.log('Verified production has no design comparison controls or experimental theme.');
+  const cssHrefs = page('link[rel=stylesheet]').toArray().map(el => page(el).attr('href'));
+  const css = (await Promise.all(cssHrefs.map(href => readFile(path.join(dist, '_astro', path.basename(href)), 'utf8')))).join('\n');
+  for (const font of ['Newsreader Variable', 'Manrope Variable']) assert.ok(css.includes(font), `Missing Salon font ${font}`);
+  assert.ok(css.includes('data-design=salon') || css.includes('data-design="salon"'), 'Salon styling missing');
+  for (const route of ['index.html', 'ko/index.html', 'ko/home/index.html', 'bio/index.html', 'datenschutz/index.html', 'impressum/index.html']) {
+    const html = await readFile(path.join(dist, route), 'utf8');
+    assert.equal(load(html)('html').attr('data-design'), 'salon', `${route}: inconsistent live design`);
+    assert.doesNotMatch(html, /localStorage|sessionStorage|data-design-choice|data-layout-path/, `${route}: preview controls or storage leaked into production`);
+  }
+  console.log('Verified permanent Salon design, local fonts, no comparison controls or saved-preference scripts in production.');
 } else {
   const ids = ['salon', 'studio', 'edition', 'lesart'];
   assert.deepEqual(page('[data-design-choice]').toArray().map(element => page(element).attr('data-design-choice')), ids);

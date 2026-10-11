@@ -13,19 +13,19 @@ const variants = [
 ];
 for (const variant of variants) {
   const original = await page(variant.original);
-  assert.equal(original('html').attr('data-layout'), undefined, 'Never replace the original homepage');
-  assert.equal(original('.audience').length, 3, 'Original audience blocks must stay');
-  assert.equal(original('#request-form').length, 1, 'Original contact form must stay');
-  assert.equal(original('.faq-list details').length, variant.lang === 'de' ? 7 : 5);
   if (indexable) {
     assert.equal(await exists(variant.calm), false, 'Do not publish experiments on the final production site');
     assert.equal(original('[data-layout-path]').length, 0);
-    continue;
+  } else {
+    assert.equal(original('html').attr('data-layout'), undefined, 'Retain the original homepage for preview comparison');
+    assert.equal(original('.audience').length, 3);
+    assert.equal(original('#request-form').length, 1);
+    assert.equal(original('.faq-list details').length, variant.lang === 'de' ? 7 : 5);
   }
-  const calm = await page(variant.calm);
+  const calm = indexable ? original : await page(variant.calm);
   assert.equal(calm('html').attr('lang'), variant.lang);
   assert.equal(calm('html').attr('data-layout'), 'calm');
-  assert.match(calm('meta[name=robots]').attr('content'), /noindex/);
+  assert.match(calm('meta[name=robots]').attr('content'), indexable ? /^index, follow/ : /noindex/);
   assert.equal(calm('link[rel=canonical]').attr('href'), 'https://klavierlernen-berlin.de' + variant.originalPath);
   assert.equal(calm('.calm-home').length, 1);
   assert.equal(calm('.audience, .intro-strip, #request-form, .faq-section').length, 0);
@@ -47,6 +47,14 @@ for (const variant of variants) {
   assert.equal(calm('a[href*="Vita-2019.pdf"]').length, 0);
   assert.doesNotMatch(calm('.calm-home').text(), /jazz|재즈/i);
   for (const id of ['unterricht', 'aboutme', 'preise', 'pianistin', 'fragen', 'kontakt']) assert.equal(calm(`#${id}`).length, 1);
+  if (indexable) {
+    assert.equal(calm('.languages a[lang=de]').attr('href'), base + '/');
+    assert.equal(calm('.languages a[lang=ko]').attr('href'), base + '/ko/home/');
+    assert.ok(calm('.desktop-nav a').toArray().every(el => calm(el).attr('href').startsWith(base + variant.originalPath + '#')));
+    assert.equal(calm('#design-preview').length, 0);
+    assert.ok(calm('#kontakt a[href^="mailto:jongsuk.kim83@gmail.com"]').length > 0);
+    continue;
+  }
   for (const $ of [original, calm]) {
     assert.deepEqual($('[data-design-choice]').toArray().map(el => $(el).attr('data-design-choice')), ['salon', 'studio', 'edition', 'lesart']);
     assert.deepEqual($('[data-layout-path]').toArray().map(el => $(el).attr('data-layout-path')), [base + variant.originalPath, base + variant.calmPath]);
@@ -59,4 +67,5 @@ for (const variant of variants) {
   assert.ok(words(calm) < words(original) * .8, 'The alternative should be materially shorter');
 }
 assert.doesNotMatch(await readFile(new URL('sitemap-0.xml', dist), 'utf8'), /\/vergleich\//);
-console.log(`Verified calmer comparison: ${indexable ? 'excluded from production' : 'both languages, both versions, four styles, unchanged prices/photos/audio and noindex'}, excluded from sitemap, original content retained.`);
+if (indexable) assert.equal((await page('ko/index.html'))('.calm-home').length, 1, 'The legacy Korean entry must also use the approved homepage');
+console.log(`Verified ${indexable ? 'approved calmer homepages, indexable and canonical, no review routes' : 'isolated calmer comparison, both languages and four styles'}, advanced lessons, prices/photos/audio and sitemap.`);

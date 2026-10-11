@@ -3,8 +3,8 @@ export const site = {
   title: 'Klavierunterricht in Berlin Prenzlauer Berg',
   description: 'Jongsuk Kim gibt professionellen Klavierunterricht für Anfänger und Fortgeschrittene in Berlin Prenzlauer Berg. Alle Altersgruppen sind herzlich willkommen!',
   name: 'Jongsuk Kim',
-  email: 'kontakt@klavierschule.berlin',
-  privacyEmail: 'info@klavierschule.berlin',
+  email: 'jongsuk.kim83@gmail.com',
+  privacyEmail: 'jongsuk.kim83@gmail.com',
   pricesUpdated: '27.12.2025',
   trial: 30,
   prices: [{minutes:30,price:45},{minutes:45,price:50},{minutes:60,price:60}]

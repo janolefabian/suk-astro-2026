@@ -2,15 +2,16 @@
 import '../styles/global.css';
 import Arrow from '../components/Arrow.astro';
 import DesignHead from '../components/DesignHead.astro';
+import SalonHead from '../components/SalonHead.astro';
 import DesignPreview from '../components/DesignPreview.astro';
 import {site,pathTo,canonical,homeFor,comparisonFor,isIndexable,type Language} from '../lib/site';
 interface Props {
   title?:string; description?:string; lang?:Language; canonicalPath?:string;
-  home?:boolean; noindex?:boolean; calm?:boolean; schema?:Record<string,unknown>;
+  home?:boolean; noindex?:boolean; calm?:boolean; comparison?:boolean; schema?:Record<string,unknown>;
 }
-const {title=site.title,description=site.description,lang='de',canonicalPath='/',home=false,noindex=false,calm=false,schema} = Astro.props;
+const {title=site.title,description=site.description,lang='de',canonicalPath='/',home=false,noindex=false,calm=false,comparison=false,schema} = Astro.props;
 const ko = lang === 'ko';
-const pageFor = calm ? comparisonFor : homeFor;
+const pageFor = comparison ? comparisonFor : homeFor;
 const root = pathTo(pageFor(lang));
 const nav = ko ? [['unterricht','레슨'],['aboutme','소개'],['pianistin','연주'],['preise','레슨비']] : [['unterricht','Unterricht'],['aboutme','Über mich'],['pianistin','Pianistin & Musik'],['preise','Preise']];
 const webSchema = { '@context':'https://schema.org', '@graph':[
@@ -20,11 +21,12 @@ const webSchema = { '@context':'https://schema.org', '@graph':[
 ]};
 ---
 <!doctype html>
-<html lang={ko ? 'ko' : 'de'} data-design={!isIndexable ? 'salon' : undefined} data-layout={calm ? 'calm' : undefined}>
+<html lang={ko ? 'ko' : 'de'} data-design="salon" data-layout={calm ? 'calm' : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
+    <SalonHead />
     {!isIndexable && <DesignHead />}
     <title>{title}</title>
     <meta name="description" content={description} />

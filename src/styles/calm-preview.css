@@ -1,5 +1,5 @@
 @layer variants {
-  /* Review-only: never changes the original Home component or other pages. */
+  /* Approved calm layout, isolated from the older comparison and other pages. */
   [data-layout='calm'] .calm-home .section-space,
   [data-layout='calm'] .calm-home .about-section { padding-block: 64px; }
   [data-layout='calm'] .calm-home h2 { font-size: clamp(1.75rem, 3vw, 2.25rem); line-height: 1.2; }
