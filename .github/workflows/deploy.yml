@@ -31,9 +31,16 @@ jobs:
           PAGES_URL: ${{ steps.pages.outputs.base_url }}
           PUBLIC_INDEXABLE: ${{ vars.PUBLIC_INDEXABLE || 'false' }}
         run: |
-          if [ "$PUBLIC_INDEXABLE" = "true" ] && [ "${PAGES_URL%/}" != "https://klavierlernen-berlin.de" ]; then
-            echo "Indexing is only allowed after Pages is configured for klavierlernen-berlin.de. Keep PUBLIC_INDEXABLE=false for the preview."
-            exit 1
+          if [ "$PUBLIC_INDEXABLE" = "true" ]; then
+            # Pages may report HTTP until DNS validation issues the certificate.
+            # The build still uses HTTPS canonicals; only the exact live host is allowed.
+            case "${PAGES_URL%/}" in
+              https://klavierlernen-berlin.de|http://klavierlernen-berlin.de) ;;
+              *)
+                echo "Indexing is only allowed after Pages is configured for klavierlernen-berlin.de. Keep PUBLIC_INDEXABLE=false for the preview."
+                exit 1
+                ;;
+            esac
           fi
       - run: npm ci
       - run: npm run check
