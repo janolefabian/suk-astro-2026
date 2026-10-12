@@ -10,6 +10,14 @@ export const site = {
   prices: [{minutes:30,price:45},{minutes:45,price:50},{minutes:60,price:60}]
 };
 export type Language = 'de' | 'ko';
+export const localizedSiteMetadata: Record<Language, {title:string; description:string}> = {
+  de: {title:site.title, description:site.description},
+  ko: {
+    title:'베를린 프렌츠라우어베르크 피아노 레슨 | 김종숙',
+    description:'피아니스트 김종숙의 베를린 프렌츠라우어베르크 피아노 레슨. 어린이부터 성인, 입문자부터 전공자까지 독일어와 한국어로 개인 레슨을 진행합니다.'
+  }
+};
+export const audioAlternates: Record<Language, string> = {de:'/audio/', ko:'/ko/audio/'};
 export const pathTo = (path = '/') => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
 export const canonical = (path = '/') => new URL(path, site.origin).href;
 export const mailTo = (subject = 'Probestunde Klavierunterricht') => `mailto:${site.email}?subject=${encodeURIComponent(subject)}`;

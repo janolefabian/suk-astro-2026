@@ -4,15 +4,18 @@ import Arrow from '../components/Arrow.astro';
 import DesignHead from '../components/DesignHead.astro';
 import SalonHead from '../components/SalonHead.astro';
 import DesignPreview from '../components/DesignPreview.astro';
-import {site,pathTo,canonical,homeFor,comparisonFor,lessonReviewFor,isIndexable,type Language,type LessonReview} from '../lib/site';
+import {site,localizedSiteMetadata,pathTo,canonical,homeFor,comparisonFor,lessonReviewFor,isIndexable,type Language,type LessonReview} from '../lib/site';
 interface Props {
   title?:string; description?:string; lang?:Language; canonicalPath?:string;
   home?:boolean; noindex?:boolean; calm?:boolean; comparison?:boolean; schema?:Record<string,unknown>;
   lessonReview?:LessonReview;
+  alternates?:Record<Language,string>;
 }
-const {title=site.title,description=site.description,lang='de',canonicalPath='/',home=false,noindex=false,calm=false,comparison=false,lessonReview,schema} = Astro.props;
+const {lang='de',title=localizedSiteMetadata[lang].title,description=localizedSiteMetadata[lang].description,canonicalPath='/',home=false,noindex=false,calm=false,comparison=false,lessonReview,schema,alternates} = Astro.props;
 const ko = lang === 'ko';
 const pageFor = lessonReview ? (language:Language) => lessonReviewFor(language, lessonReview) : comparison ? comparisonFor : homeFor;
+const alternatePaths = alternates ?? (home ? {de:homeFor('de'), ko:homeFor('ko')} : undefined);
+const languageSwitchFor = (language:Language) => comparison || lessonReview ? pageFor(language) : alternatePaths?.[language] ?? pageFor(language);
 const root = pathTo(pageFor(lang));
 const nav = ko ? [['unterricht','레슨'],['aboutme','소개'],['pianistin','연주'],['preise','레슨비']] : [['unterricht','Unterricht'],['aboutme','Über mich'],['pianistin','Pianistin & Musik'],['preise','Preise']];
 const webSchema = { '@context':'https://schema.org', '@graph':[
@@ -33,7 +36,7 @@ const webSchema = { '@context':'https://schema.org', '@graph':[
     <meta name="description" content={description} />
     <meta name="robots" content={isIndexable&&!noindex ? 'index, follow, max-image-preview:large' : 'noindex, follow'} />
     <link rel="canonical" href={canonical(canonicalPath)} />
-    {home && <><link rel="alternate" hreflang="de-DE" href={canonical('/')} /><link rel="alternate" hreflang="ko-KR" href={canonical('/ko/home/')} /><link rel="alternate" hreflang="x-default" href={canonical('/')} /></>}
+    {alternatePaths && <><link rel="alternate" hreflang="de-DE" href={canonical(alternatePaths.de)} /><link rel="alternate" hreflang="ko-KR" href={canonical(alternatePaths.ko)} /><link rel="alternate" hreflang="x-default" href={canonical(alternatePaths.de)} /></>}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -57,7 +60,7 @@ const webSchema = { '@context':'https://schema.org', '@graph':[
           {nav.map(([id,label])=><a href={`${root}#${id}`}>{label}</a>)}
         </nav>
         <div class="header-actions">
-          <nav class="languages" aria-label={ko?'언어':'Sprache'}><a href={pathTo(pageFor('de'))} lang="de" aria-current={!ko?'page':undefined}>DE</a><span>/</span><a href={pathTo(pageFor('ko'))} lang="ko" aria-current={ko?'page':undefined}>한국어</a></nav>
+          <nav class="languages" aria-label={ko?'언어':'Sprache'}><a href={pathTo(languageSwitchFor('de'))} lang="de" aria-current={!ko?'page':undefined}>DE</a><span>/</span><a href={pathTo(languageSwitchFor('ko'))} lang="ko" aria-current={ko?'page':undefined}>한국어</a></nav>
           <a class="header-cta" href={`${root}#kontakt`}>{ko?'상담 문의':'Probestunde'}<Arrow diagonal /></a>
           <details class="mobile-menu">
             <summary aria-label={ko?'메뉴 열기':'Menü öffnen'}><span></span><span></span></summary>

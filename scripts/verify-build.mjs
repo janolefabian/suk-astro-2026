@@ -63,10 +63,36 @@ for(const id of ['0','aboutme','unterricht','pianistin','kontakt'])check(home(`[
 for(const [lang,url] of [['de-DE',baseline.domain+'/'],['ko-KR',baseline.domain+'/ko/home/']]){
   for(const route of ['index.html','ko/index.html','ko/home/index.html'])check(cache.get(path.join(dist,route))?.(`link[hreflang="${lang}"]`).attr('href')===url,`${route}: reciprocal hreflang missing for ${lang}`);
 }
+for(const route of ['ko/index.html','ko/home/index.html','ko/audio/index.html']){
+  const korean=cache.get(path.join(dist,route));
+  check(korean?.('html').attr('lang')==='ko',`${route}: Korean language missing`);
+  const title=korean?.('title').text()||'';
+  const description=korean?.('meta[name=description]').attr('content')||'';
+  check(/[가-힣]/u.test(title)&&title.includes('김종숙')&&!title.includes('Klavierunterricht'),`${route}: Korean title missing`);
+  check(/[가-힣]/u.test(description),`${route}: Korean description missing`);
+  check(korean?.('meta[property="og:title"]').attr('content')===title,`${route}: Open Graph title differs from localized title`);
+  check(korean?.('meta[property="og:description"]').attr('content')===description,`${route}: Open Graph description differs from localized description`);
+  const graph=JSON.parse(korean?.('script[type="application/ld+json"]').first().text()||'{}')['@graph'];
+  const webPage=graph?.find(item=>item['@type']==='WebPage');
+  check(webPage?.name===title&&webPage?.description===description&&webPage?.inLanguage==='ko-KR',`${route}: structured page metadata not localized`);
+}
+for(const route of ['audio/index.html','ko/audio/index.html']){
+  const audio=cache.get(path.join(dist,route));
+  for(const [lang,url] of [['de-DE','/audio/'],['ko-KR','/ko/audio/'],['x-default','/audio/']]){
+    check(audio?.(`link[rel="alternate"][hreflang="${lang}"]`).attr('href')===baseline.domain+url,`${route}: audio hreflang missing for ${lang}`);
+  }
+  for(const [lang,url] of [['de','/audio/'],['ko','/ko/audio/']]){
+    check(audio?.(`.languages a[lang="${lang}"]`).attr('href')===base+url,`${route}: language switch must stay on recordings`);
+  }
+}
 const sitemap=await readFile(path.join(dist,'sitemap-0.xml'),'utf8');
 check(!sitemap.includes('/suk-astro-2026/'),'Preview base leaked into sitemap');
 for(const route of ['/','/ko/home/','/audio/','/ko/audio/','/bio/'])check(sitemap.includes(`<loc>${baseline.domain}${route}</loc>`),`Sitemap missing ${route}`);
 check(!sitemap.includes('/404'),'404 in sitemap');
+for(const route of ['/hallo-welt/','/category/allgemein/','/author/jacfab/']){
+  check(!sitemap.includes(`<loc>${baseline.domain}${route}</loc>`),`Empty WordPress placeholder in sitemap: ${route}`);
+  check(await exists(path.join(dist,route,'index.html')),`Do not delete legacy URL before Search Console review: ${route}`);
+}
 check(await exists(path.join(dist,'sitemap_index.xml')),'Legacy sitemap URL missing');
 for(const name of ['page','post','attachment','category','author'])check(await exists(path.join(dist,`${name}-sitemap.xml`)),`Legacy ${name} sitemap URL missing`);
 const robots=await readFile(path.join(dist,'robots.txt'),'utf8');
