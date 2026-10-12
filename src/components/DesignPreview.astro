@@ -1,18 +1,24 @@
 ---
 import { designs } from '../lib/designs';
-import {homeFor, comparisonFor, pathTo, type Language} from '../lib/site';
-interface Props {lang?: Language; calm?: boolean}
-const {lang = 'de', calm = false} = Astro.props;
+import {homeFor, comparisonFor, lessonReviewFor, pathTo, type Language, type LessonReview} from '../lib/site';
+interface Props {lang?: Language; calm?: boolean; lessonReview?: LessonReview}
+const {lang = 'de', calm = false, lessonReview} = Astro.props;
+const layoutLabel = lessonReview ? (lessonReview === 'draft' ? 'Unterricht: Entwurf' : 'Unterricht: Bisher') : (calm ? 'Ruhiger' : 'Bisher');
 ---
-<aside class="design-preview" id="design-preview" lang="de" aria-label="Gestaltungsvarianten vergleichen" data-layout-label={calm ? 'Ruhiger' : 'Bisher'} hidden>
+<aside class="design-preview" id="design-preview" lang="de" aria-label="Gestaltungsvarianten vergleichen" data-layout-label={layoutLabel} data-default-section={lessonReview ? 'unterricht' : undefined} hidden>
   <div class="design-panel" id="design-panel">
     <div class="design-panel-heading">
-      <span>Seite & Stil vergleichen</span>
+      <span>{lessonReview ? 'Unterricht · lokale Vorschau' : 'Seite & Stil vergleichen'}</span>
       <button type="button" class="design-collapse" aria-controls="design-panel" data-design-collapse>Einklappen <span aria-hidden="true">⌄</span></button>
     </div>
     <nav class="layout-choices" aria-label="Seitenumfang vergleichen">
+      {lessonReview ? <>
+      <a href={`${pathTo(lessonReviewFor(lang, 'current'))}?stil=salon#unterricht`} data-layout-path={pathTo(lessonReviewFor(lang, 'current'))} aria-current={lessonReview === 'current' ? 'page' : undefined}>Bisher</a>
+      <a href={`${pathTo(lessonReviewFor(lang, 'draft'))}?stil=salon#unterricht`} data-layout-path={pathTo(lessonReviewFor(lang, 'draft'))} aria-current={lessonReview === 'draft' ? 'page' : undefined}>Entwurf</a>
+      </> : <>
       <a href={`${pathTo(homeFor(lang))}?stil=salon`} data-layout-path={pathTo(homeFor(lang))} aria-current={!calm ? 'page' : undefined}>Bisher</a>
       <a href={`${pathTo(comparisonFor(lang))}?stil=salon`} data-layout-path={pathTo(comparisonFor(lang))} aria-current={calm ? 'page' : undefined}>Ruhiger</a>
+      </>}
     </nav>
     <div class="design-choices" role="group" aria-label="Stil wählen">
       {designs.map((design, index) => <button type="button" class="design-choice" data-design-choice={design.id} aria-pressed={index === 0 ? 'true' : 'false'} aria-describedby="design-description">
@@ -22,7 +28,7 @@ const {lang = 'de', calm = false} = Astro.props;
     </div>
     <p class="design-description" id="design-description" role="status" aria-live="polite" aria-atomic="true">{designs[0].description}</p>
   </div>
-  <button class="design-reopen" type="button" data-design-reopen aria-expanded="false" aria-controls="design-panel" hidden>Seite & Stil <span data-design-current>{calm ? 'Ruhiger' : 'Bisher'} · Salon</span></button>
+  <button class="design-reopen" type="button" data-design-reopen aria-expanded="false" aria-controls="design-panel" hidden>Seite & Stil <span data-design-current>{layoutLabel} · Salon</span></button>
 </aside>
 <script>
   import { defaultDesign, designStorageKey, findDesign } from '../lib/designs';
@@ -58,6 +64,7 @@ const {lang = 'de', calm = false} = Astro.props;
       layoutLinks.forEach(link => {
         const url = new URL(link.dataset.layoutPath!, window.location.origin);
         url.searchParams.set('stil', design.id);
+        if (preview!.dataset.defaultSection) url.hash = preview!.dataset.defaultSection;
         link.href = url.href;
       });
       if (remember) {

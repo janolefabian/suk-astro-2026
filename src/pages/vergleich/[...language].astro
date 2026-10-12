@@ -1,15 +1,19 @@
 ---
 import CalmHome from '../../components/CalmHome.astro';
-import {isIndexable, type Language} from '../../lib/site';
+import {isIndexable, type Language, type LessonReview} from '../../lib/site';
 
 // This is a review-only alternative, not an additional production landing page.
 export function getStaticPaths() {
   return isIndexable ? [] : [
     {params: {language: undefined}, props: {lang: 'de'}},
     {params: {language: 'ko'}, props: {lang: 'ko'}},
+    {params: {language: 'unterricht'}, props: {lang: 'de', lessonReview: 'draft'}},
+    {params: {language: 'unterricht/ko'}, props: {lang: 'ko', lessonReview: 'draft'}},
+    {params: {language: 'unterricht/bisher'}, props: {lang: 'de', lessonReview: 'current'}},
+    {params: {language: 'unterricht/bisher/ko'}, props: {lang: 'ko', lessonReview: 'current'}},
   ];
 }
-interface Props {lang: Language}
-const {lang} = Astro.props;
+interface Props {lang: Language; lessonReview?: LessonReview}
+const {lang, lessonReview} = Astro.props;
 ---
-<CalmHome lang={lang} comparison />
+<CalmHome lang={lang} comparison lessonReview={lessonReview} />

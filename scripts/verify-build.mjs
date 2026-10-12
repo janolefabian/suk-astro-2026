@@ -18,6 +18,10 @@ for(const route of baseline.routes){const file=path.join(dist,route,'index.html'
 for(const asset of baseline.assets)check(await exists(path.join(dist,asset)),`Missing original asset: ${asset}`);
 for(const [file,$] of cache){
   const relative=path.relative(dist,file);
+  const readable=$('body').clone();
+  readable.find('script,style').remove();
+  const labels=$('[alt],[title],[aria-label],meta[content]').toArray().map(el=>['alt','title','aria-label','content'].map(name=>$(el).attr(name)||'').join(' ')).join(' ');
+  check(!/[\u2012-\u2015]/u.test(readable.text()+$('title').text()+labels),`${relative}: a dash remains in website copy or metadata`);
   check($('title').length===1&&$('title').text().length>5,`${relative}: missing title`);
   check($('meta[name=description]').attr('content')?.length>15,`${relative}: missing description`);
   check($('h1').length===1,`${relative}: expected one H1, got ${$('h1').length}`);

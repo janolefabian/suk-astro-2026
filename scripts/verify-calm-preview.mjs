@@ -11,10 +11,25 @@ const variants = [
   {lang: 'de', original: 'index.html', calm: 'vergleich/index.html', originalPath: '/', calmPath: '/vergleich/'},
   {lang: 'ko', original: 'ko/home/index.html', calm: 'vergleich/ko/index.html', originalPath: '/ko/home/', calmPath: '/vergleich/ko/'},
 ];
+function verifyApprovedLesson($, lang) {
+  assert.equal($('#unterricht.lesson-focus').length, 1);
+  assert.equal($('#unterricht img').length, 1);
+  assert.ok($('#unterricht img').attr('src').endsWith('/kind1.jpg'));
+  assert.equal($('#lesson-title').text(), lang === 'de' ? 'So lernen wir zusammen.' : '함께 배워가는 시간.');
+  assert.equal($('.calm-advanced').closest('details').length, 0);
+  assert.equal($('#fragen').prop('tagName'), 'SECTION');
+  assert.equal($('#fragen').attr('aria-labelledby'), 'questions-title');
+  assert.equal($('#questions-title').text(), lang === 'de' ? 'Gut zu wissen' : '레슨 안내');
+  assert.equal($('.calm-advanced + section#fragen').length, 1, 'General lesson information must be a sibling, not a part of advanced lessons');
+}
 for (const variant of variants) {
   const original = await page(variant.original);
+  const lessonDraftFile = `vergleich/unterricht/${variant.lang === 'ko' ? 'ko/' : ''}index.html`;
+  const lessonCurrentFile = `vergleich/unterricht/bisher/${variant.lang === 'ko' ? 'ko/' : ''}index.html`;
   if (indexable) {
     assert.equal(await exists(variant.calm), false, 'Do not publish experiments on the final production site');
+    for (const file of [lessonDraftFile, lessonCurrentFile]) assert.equal(await exists(file), false, 'Comparison URLs must remain preview-only');
+    verifyApprovedLesson(original, variant.lang);
     assert.equal(original('[data-layout-path]').length, 0);
   } else {
     assert.equal(original('html').attr('data-layout'), undefined, 'Retain the original homepage for preview comparison');
@@ -68,9 +83,27 @@ for (const variant of variants) {
   assert.equal(calm('.languages a[lang=de]').attr('href'), base + '/vergleich/');
   assert.equal(calm('.languages a[lang=ko]').attr('href'), base + '/vergleich/ko/');
   assert.ok(calm('.desktop-nav a').toArray().every(el => calm(el).attr('href').startsWith(base + variant.calmPath + '#')));
+  const draft = await page(lessonDraftFile);
+  const current = await page(lessonCurrentFile);
+  const normalize = value => value.replace(/\s+/g, ' ').trim();
+  for (const $ of [draft, current]) {
+    assert.match($('meta[name=robots]').attr('content'), /noindex/);
+    assert.equal($('link[rel=canonical]').attr('href'), calm('link[rel=canonical]').attr('href'));
+    assert.equal(normalize($('.hero').html()), normalize(calm('.hero').html()), 'Never change the hero for the teaching proposal');
+    for (const id of ['aboutme', 'preise', 'pianistin', 'kontakt']) assert.equal($(`#${id}`).html(), calm(`#${id}`).html(), `Unrelated section changed: ${id}`);
+    assert.equal($('.calm-copy p').text(), calm('.calm-copy p').text(), 'Preserve all teaching copy, advanced lessons and FAQs');
+    assert.equal($('.calm-questions details').length, 2);
+    assert.equal($('.calm-advanced').html(), calm('.calm-advanced').html());
+    assert.deepEqual($('[data-layout-path]').toArray().map(el => $(el).text()), ['Bisher', 'Entwurf']);
+    assert.equal($('.layout-choices [aria-current=page]').length, 1);
+    assert.ok($('.desktop-nav a').toArray().every(el => $(el).attr('href').includes('/vergleich/unterricht/')));
+  }
+  assert.equal(current('#unterricht').html(), calm('#unterricht').html(), 'The comparison must show the unchanged current teaching section');
+  verifyApprovedLesson(draft, variant.lang);
+  assert.equal(current('#fragen h3').text(), variant.lang === 'de' ? 'Gut zu wissen' : '레슨 안내');
   const words = $ => $('main').text().trim().split(/\s+/).length;
   assert.ok(words(calm) < words(original) * .8, 'The alternative should be materially shorter');
 }
 assert.doesNotMatch(await readFile(new URL('sitemap-0.xml', dist), 'utf8'), /\/vergleich\//);
-if (indexable) assert.equal((await page('ko/index.html'))('.calm-home').length, 1, 'The legacy Korean entry must also use the approved homepage');
+if (indexable) verifyApprovedLesson(await page('ko/index.html'), 'ko');
 console.log(`Verified ${indexable ? 'approved calmer homepages, indexable and canonical, no review routes' : 'isolated calmer comparison, both languages and four styles'}, advanced lessons, prices/photos/audio and sitemap.`);

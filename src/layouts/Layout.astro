@@ -4,14 +4,15 @@ import Arrow from '../components/Arrow.astro';
 import DesignHead from '../components/DesignHead.astro';
 import SalonHead from '../components/SalonHead.astro';
 import DesignPreview from '../components/DesignPreview.astro';
-import {site,pathTo,canonical,homeFor,comparisonFor,isIndexable,type Language} from '../lib/site';
+import {site,pathTo,canonical,homeFor,comparisonFor,lessonReviewFor,isIndexable,type Language,type LessonReview} from '../lib/site';
 interface Props {
   title?:string; description?:string; lang?:Language; canonicalPath?:string;
   home?:boolean; noindex?:boolean; calm?:boolean; comparison?:boolean; schema?:Record<string,unknown>;
+  lessonReview?:LessonReview;
 }
-const {title=site.title,description=site.description,lang='de',canonicalPath='/',home=false,noindex=false,calm=false,comparison=false,schema} = Astro.props;
+const {title=site.title,description=site.description,lang='de',canonicalPath='/',home=false,noindex=false,calm=false,comparison=false,lessonReview,schema} = Astro.props;
 const ko = lang === 'ko';
-const pageFor = comparison ? comparisonFor : homeFor;
+const pageFor = lessonReview ? (language:Language) => lessonReviewFor(language, lessonReview) : comparison ? comparisonFor : homeFor;
 const root = pathTo(pageFor(lang));
 const nav = ko ? [['unterricht','레슨'],['aboutme','소개'],['pianistin','연주'],['preise','레슨비']] : [['unterricht','Unterricht'],['aboutme','Über mich'],['pianistin','Pianistin & Musik'],['preise','Preise']];
 const webSchema = { '@context':'https://schema.org', '@graph':[
@@ -70,7 +71,7 @@ const webSchema = { '@context':'https://schema.org', '@graph':[
       <div class="footer-top container"><a class="wordmark" href={root}><span>Jongsuk Kim<span class="wordmark-dot">.</span></span><small>{ko?'피아노 · 베를린':'Klavierunterricht · Berlin'}</small></a><p>{ko?'함께 음악을 만들어 가요.':'Schön, dass Musik uns verbindet.'}</p><a class="back-top" href="#0" aria-label={ko?'맨 위로':'Nach oben'}>↑</a></div>
       <div class="footer-bottom container"><span>© {new Date().getFullYear()} Jongsuk Kim</span><nav aria-label={ko?'법적 고지':'Rechtliches'}><a href={pathTo('/bio/')}>Biographie</a><a href={pathTo('/impressum/')}>Impressum</a><a href={pathTo('/datenschutz/')}>Datenschutz</a></nav><span>Berlin · Prenzlauer Berg</span></div>
     </footer>
-    {!isIndexable && <DesignPreview lang={lang} calm={calm} />}
+    {!isIndexable && <DesignPreview lang={lang} calm={calm} lessonReview={lessonReview} />}
     <script>
       const menu = document.querySelector<HTMLDetailsElement>('.mobile-menu');
       menu?.querySelectorAll('a').forEach(link => link.addEventListener('click',()=>{menu.open=false;}));
