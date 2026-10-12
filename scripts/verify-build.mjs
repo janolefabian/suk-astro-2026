@@ -5,6 +5,9 @@ import {load} from 'cheerio';
 const root=new URL('../',import.meta.url).pathname;
 const dist=path.join(root,'dist');
 const baseline=JSON.parse(await readFile(path.join(root,'docs/seo-baseline.json'),'utf8'));
+// Explicitly approved removals; retain the historical migration baseline itself.
+const retiredRoutes=new Set(['/hallo-welt/','/category/allgemein/','/author/jacfab/']);
+const preservedRoutes=baseline.routes.filter(route=>!retiredRoutes.has(route));
 const base=(process.env.BASE_PATH||'/').replace(/\/$/,'');
 const indexable=process.env.PUBLIC_INDEXABLE==='true';
 const errors=[];
@@ -14,7 +17,7 @@ async function walk(dir){const files=await readdir(dir,{withFileTypes:true});ret
 const htmlFiles=(await walk(dist)).filter(file=>file.endsWith('.html'));
 const cache=new Map();
 for(const file of htmlFiles)cache.set(file,load(await readFile(file,'utf8')));
-for(const route of baseline.routes){const file=path.join(dist,route,'index.html');check(await exists(file),`Missing original route: ${route}`);}
+for(const route of preservedRoutes){const file=path.join(dist,route,'index.html');check(await exists(file),`Missing original route: ${route}`);}
 for(const asset of baseline.assets)check(await exists(path.join(dist,asset)),`Missing original asset: ${asset}`);
 for(const [file,$] of cache){
   const relative=path.relative(dist,file);
@@ -89,13 +92,13 @@ const sitemap=await readFile(path.join(dist,'sitemap-0.xml'),'utf8');
 check(!sitemap.includes('/suk-astro-2026/'),'Preview base leaked into sitemap');
 for(const route of ['/','/ko/home/','/audio/','/ko/audio/','/bio/'])check(sitemap.includes(`<loc>${baseline.domain}${route}</loc>`),`Sitemap missing ${route}`);
 check(!sitemap.includes('/404'),'404 in sitemap');
-for(const route of ['/hallo-welt/','/category/allgemein/','/author/jacfab/']){
+for(const route of retiredRoutes){
   check(!sitemap.includes(`<loc>${baseline.domain}${route}</loc>`),`Empty WordPress placeholder in sitemap: ${route}`);
-  check(await exists(path.join(dist,route,'index.html')),`Do not delete legacy URL before Search Console review: ${route}`);
+  check(!await exists(path.join(dist,route,'index.html')),`Deleted WordPress placeholder recreated: ${route}`);
 }
 check(await exists(path.join(dist,'sitemap_index.xml')),'Legacy sitemap URL missing');
 for(const name of ['page','post','attachment','category','author'])check(await exists(path.join(dist,`${name}-sitemap.xml`)),`Legacy ${name} sitemap URL missing`);
 const robots=await readFile(path.join(dist,'robots.txt'),'utf8');
 check(!robots.includes('Disallow: /'),'Robots blocks crawling; noindex must be readable on previews');
 if(errors.length){console.error(errors.join('\n'));throw new Error(`${errors.length} SEO/link checks failed`);}
-console.log(`Verified ${htmlFiles.length} HTML pages, ${baseline.routes.length} existing routes, ${baseline.assets.length} original assets, internal links, anchors, canonical URLs, language links and sitemap. Mode: ${indexable?'production (indexable)':'preview (noindex)'}.`);
+console.log(`Verified ${htmlFiles.length} HTML pages, ${preservedRoutes.length} preserved routes, ${retiredRoutes.size} approved removals, ${baseline.assets.length} original assets, internal links, anchors, canonical URLs, language links and sitemap. Mode: ${indexable?'production (indexable)':'preview (noindex)'}.`);

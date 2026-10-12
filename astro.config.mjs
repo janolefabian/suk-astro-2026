@@ -7,8 +7,8 @@ const site = 'https://klavierlernen-berlin.de';
 const base = process.env.BASE_PATH || '/';
 const legacyPages=JSON.parse(readFileSync(new URL('./src/data/legacy-pages.json',import.meta.url),'utf8'));
 const nonCanonicalPages=new Set(legacyPages.filter(page=>page.path!==page.canonical).map(page=>page.path));
-// Preserve old URLs and indexing until Search Console data has been reviewed,
-// but stop submitting empty WordPress archives as useful content.
+// The user approved deleting these empty WordPress pages on 2026-10-12.
+// Keep them excluded in case a future archive import recreates a route.
 const legacyPlaceholders=new Set(['/hallo-welt/','/category/allgemein/','/author/jacfab/']);
 const withoutBase=(pathname)=>base!=='/'&&pathname.startsWith(base)?'/'+pathname.slice(base.length).replace(/^\//,''):pathname;
 

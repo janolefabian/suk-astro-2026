@@ -1,13 +1,5 @@
 [
   {
-    "path": "/hallo-welt/",
-    "title": "Hallo Welt! - Klavierunterricht in Berlin",
-    "description": "",
-    "canonical": "/hallo-welt/",
-    "heading": "Hallo Welt!",
-    "html": "<p>Willkommen zur deutschen Version von WordPress. Dies ist der erste Beitrag. Du kannst ihn bearbeiten oder löschen. Und dann starte mit dem Schreiben!</p>\n"
-  },
-  {
     "path": "/home/kind1/",
     "title": "kind1 - Klavierunterricht in Berlin",
     "description": "",
@@ -126,21 +118,5 @@
     "canonical": "/wp-content/uploads/2015/09/header1-1.jpg",
     "heading": "header1",
     "html": "<p><a href=\"https://klavierlernen-berlin.de/wp-content/uploads/2015/09/header1-1.jpg\"><img width=\"300\" height=\"161\" src=\"https://klavierlernen-berlin.de/wp-content/uploads/2015/09/header1-1-300x161.jpg\" alt=\"\" loading=\"lazy\"></a></p>\n"
-  },
-  {
-    "path": "/category/allgemein/",
-    "title": "Allgemein Archive - Klavierunterricht in Berlin",
-    "description": "",
-    "canonical": "/category/allgemein/",
-    "heading": "Allgemein Archive",
-    "html": "<p>Willkommen zur deutschen Version von WordPress. Dies ist der erste Beitrag. Du kannst ihn bearbeiten oder löschen. Und dann starte mit dem Schreiben!</p>\n"
-  },
-  {
-    "path": "/author/jacfab/",
-    "title": "jacfab, Autor auf Klavierunterricht in Berlin",
-    "description": "",
-    "canonical": "/author/jacfab/",
-    "heading": "jacfab, Autor auf Klavierunterricht in Berlin",
-    "html": "<p>Willkommen zur deutschen Version von WordPress. Dies ist der erste Beitrag. Du kannst ihn bearbeiten oder löschen. Und dann starte mit dem Schreiben!</p>\n"
   }
 ]
