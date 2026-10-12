@@ -34,8 +34,8 @@ for (const route of ['index.html', 'ko/index.html', 'ko/home/index.html', 'daten
   assert.doesNotMatch(html, /(?:kontakt|info)@klavierschule\.berlin/, `${route}: outdated forwarding address`);
   assert.match(html, /mailto:jongsuk\.kim83@gmail\.com/, `${route}: direct email contact missing`);
 }
-assert.equal(de('.album-release a').text().trim(), 'Album auf Bandcamp anhören');
-assert.equal(ko('.album-release a').text().trim(), 'Bandcamp에서 앨범 듣기');
+assert.equal(de('.album-release a').text().trim(), 'Lost Beauty auf Bandcamp hören');
+assert.equal(ko('.album-release a').text().trim(), 'Bandcamp에서 Lost Beauty 듣기');
 assert.equal(bio('a[href*="Vita-2019.pdf"]').length, 0);
 assert.match(bio('.prose').text(), /Lost Beauty/);
 assert.match(bio('.prose').text(), /Szymon Marciniak/);

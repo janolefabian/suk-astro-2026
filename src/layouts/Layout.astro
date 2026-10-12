@@ -47,8 +47,9 @@ const webSchema = { '@context':'https://schema.org', '@graph':[
     {schema && <script is:inline type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g,'\\u003c')} />}
   </head>
   <body>
+    <div id="0" aria-hidden="true"></div>
     <a class="skip-link" href="#main">{ko?'본문으로 바로가기':'Zum Inhalt springen'}</a>
-    <header class="site-header" id="0">
+    <header class="site-header">
       <div class="header-inner">
         <a class="wordmark wordmark-header" href={root} aria-label={ko?'김종숙 · 홈':'Jongsuk Kim · Klavierunterricht · Startseite'}><span>{ko?'피아노 레슨':'Klavierunterricht'}</span><small>{ko?'김종숙 · 베를린 프렌츠라우어베르크':'… in Berlin Prenzlauer Berg'}</small></a>
         <nav class="desktop-nav" aria-label={ko?'메인 메뉴':'Hauptnavigation'}>

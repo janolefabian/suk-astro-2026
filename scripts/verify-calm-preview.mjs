@@ -38,6 +38,11 @@ for (const variant of variants) {
   assert.equal(calm('.calm-specialist strong').length, 2, 'Preserve the services highlighted at Kim’s request');
   assert.deepEqual(calm('.calm-price-table td').toArray().map(el => calm(el).text().trim()), ['30 €', '45 €', '50 €', '60 €']);
   assert.equal(calm('.music-section audio').length, 3);
+  assert.equal(calm('.calm-recordings audio').length, 3, 'Group the recordings independently from the album');
+  assert.equal(calm('.calm-recordings .recording h4').length, 3, 'Recording titles belong under the recordings heading');
+  assert.equal(calm('.calm-recordings + .album-release').length, 1, 'The independent album block must follow all recordings');
+  assert.equal(calm('.calm-recordings .album-cover').length, 0, 'Do not visually attribute these recordings to Lost Beauty');
+  assert.match(calm('.calm-recordings-title').text(), variant.lang === 'de' ? /Hörproben.*Solo & Kammermusik/ : /연주 감상.*독주 & 실내악/);
   assert.deepEqual(calm('.music-section audio source').toArray().map(el => calm(el).attr('src')), original('.music-section audio source').toArray().map(el => original(el).attr('src')));
   for (const selector of ['.hero-portrait img', '.contact-portrait', '.music-story img', '.album-cover']) {
     assert.equal(calm(selector).attr('src'), original(selector).attr('src'), `Keep the original photograph: ${selector}`);

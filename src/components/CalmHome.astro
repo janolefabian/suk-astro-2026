@@ -105,11 +105,13 @@ const ko = lang === 'ko';
         <div class="music-header"><h2 id="music-title">{ko?'피아니스트로서':'Als Pianistin'}</h2><a class="text-link" href={pathTo('/downloads/jongsukkim_repertoire.pdf')}>{ko?'레퍼토리 (PDF)':'Repertoire (PDF)'}<Arrow diagonal /></a></div>
         <div class="music-story">
           <figure id="pianistinbild"><img src={photo('pianistin_foto.jpg')} width="962" height="604" loading="lazy" alt={ko?'무대에서 피아노를 연주하는 김종숙':'Jongsuk Kim als Konzertpianistin am Flügel'} /></figure>
-          <div id="pianistin_content"><p>{ko?'솔로, 실내악, 반주까지 다양한 무대에서 연주하고 있습니다. 특히 실내악은 제 음악 활동의 중심입니다. 이곳에서 Szymon Marciniak과 함께한 앨범과 세 편의 연주를 들어보실 수 있습니다.':'Neben dem Unterrichten stehe ich als Solistin, Kammermusikpartnerin und Korrepetitorin auf der Bühne. Meine besondere Leidenschaft gilt der Kammermusik. Hier kannst du mein Album mit Szymon Marciniak und drei weitere Aufnahmen entdecken.'}</p></div>
+          <div id="pianistin_content"><p>{ko?'솔로, 실내악, 반주까지 다양한 무대에서 연주하고 있습니다. 특히 실내악은 제 음악 활동의 중심입니다.':'Neben dem Unterrichten stehe ich als Solistin, Kammermusikpartnerin und Korrepetitorin auf der Bühne. Meine besondere Leidenschaft gilt der Kammermusik.'}</p></div>
         </div>
+        <section class="calm-recordings" aria-labelledby="recordings-title">
+          <h3 class="calm-recordings-title" id="recordings-title">{ko?'연주 감상':'Hörproben'}<span>{ko?'독주 & 실내악':'Solo & Kammermusik'}</span></h3>
+          <Recordings lang={lang} headingLevel={4} />
+        </section>
         <Album lang={lang} concise />
-        <h3 class="calm-recordings-title">{ko?'연주 감상':'Hörproben'}</h3>
-        <Recordings lang={lang} />
       </div>
     </section>
 

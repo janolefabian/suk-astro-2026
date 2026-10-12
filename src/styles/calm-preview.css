@@ -29,14 +29,16 @@
   .calm-specialist { font-size: 1rem; line-height: 1.65; margin-top: 24px; }
   .calm-specialist strong { font-weight: 650; }
   [data-layout='calm'] .calm-home .music-story { margin-block: 28px 36px; gap: 40px; }
-  [data-layout='calm'] .calm-home .album-release { grid-template-columns: 180px minmax(0, 1fr); gap: 32px; padding-block: 28px; margin-bottom: 28px; }
+  [data-layout='calm'] .calm-home .album-release { grid-template-columns: 180px minmax(0, 1fr); gap: 32px; padding-block: 32px 0; margin-block: 48px 0; border-bottom: 0; }
   [data-layout='calm'] .calm-home .album-copy h3 { font-size: 1.75rem; margin-top: 8px; }
   [data-layout='calm'] .calm-home .album-artists { margin-top: 10px; }
   [data-layout='calm'] .calm-home .album-copy .text-link { margin-top: 12px; }
-  [data-layout='calm'] .calm-recordings-title { font-family: var(--sans); font-size: .875rem; font-weight: 500; letter-spacing: 0; margin-bottom: 14px; color: var(--music-muted); }
+  [data-layout='calm'] .calm-recordings-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 20px; font-size: 1.5rem; line-height: 1.3; margin-bottom: 20px; }
+  .calm-recordings-title > span { font-family: var(--sans); font-size: .875rem; font-weight: 400; color: var(--music-muted); }
   [data-layout='calm'] .calm-home .recording { grid-template-columns: minmax(0, 1fr) 270px; padding-block: 18px; }
+  [data-layout='calm'] .calm-recordings .recording:last-child { border-bottom: 0; }
   [data-layout='calm'] .calm-home .recording-number { display: none; }
-  [data-layout='calm'] .calm-home .recording h3 { font-size: 1.25rem; }
+  [data-layout='calm'] .calm-home .recording :is(h3, h4) { font-size: 1.25rem; }
   .calm-contact-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 64px; align-items: center; }
   [data-layout='calm'] .calm-home .contact-portrait { width: 320px; margin: 0; }
   .calm-contact-copy > p { margin-top: 18px; }
@@ -57,7 +59,7 @@
     [data-layout='calm'] .calm-home .section-space,
     [data-layout='calm'] .calm-home .about-section { padding-block: 40px; }
     [data-layout='calm'] .calm-home .music-story { margin-block: 24px 28px; gap: 24px; }
-    [data-layout='calm'] .calm-home .album-release { grid-template-columns: minmax(0, 1fr); gap: 20px; padding-block: 24px; }
+    [data-layout='calm'] .calm-home .album-release { grid-template-columns: minmax(0, 1fr); gap: 20px; padding-block: 28px 0; margin-top: 32px; }
     [data-layout='calm'] .calm-home .album-cover { max-width: 180px; }
     [data-layout='calm'] .calm-home .recording { grid-template-columns: minmax(0, 1fr); gap: 10px; }
     [data-layout='calm'] .calm-home .recording audio { grid-column: 1; margin-top: 0; max-width: 100%; }

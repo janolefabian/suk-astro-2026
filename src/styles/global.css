@@ -2,7 +2,7 @@
 
 @layer reset {
   *, *::before, *::after { box-sizing: border-box; }
-  body, h1, h2, h3, p, figure, blockquote { margin: 0; }
+  body, h1, h2, h3, h4, p, figure, blockquote { margin: 0; }
   button, input, select, textarea { font: inherit; }
   a { color: inherit; text-underline-offset: 4px; }
   img, svg { display: block; }
@@ -25,7 +25,7 @@
     --gutter: clamp(20px, 4vw, 48px);
   }
   body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 1rem; line-height: 1.75; -webkit-font-smoothing: antialiased; }
-  h1, h2, h3 { font-family: var(--sans); font-weight: 500; letter-spacing: -.025em; line-height: 1.3; }
+  h1, h2, h3, h4 { font-family: var(--sans); font-weight: 500; letter-spacing: -.025em; line-height: 1.3; }
   h2 { font-size: clamp(1.75rem, 3vw, 2.125rem); }
   h3 { font-size: 1.3rem; }
   em { font-style: normal; font-weight: inherit; }
@@ -159,10 +159,10 @@
   .recording { display: grid; grid-template-columns: 25px minmax(0, 1fr) 270px; gap: 20px; align-items: center; padding-block: 22px; border-top: 1px solid #525252; }
   .recording:last-child { border-bottom: 1px solid #525252; }
   .recording-number { font-size: .875rem; color: #bfbfbf; }
-  .recording h3 { font-size: 1.125rem; letter-spacing: 0; }
+  .recording :is(h3, h4) { font-size: 1.125rem; letter-spacing: 0; }
   .recording p { color: #bfbfbf; font-size: .875rem; margin-top: 6px; line-height: 1.6; max-width: 450px; }
   .recording audio { width: 100%; height: 40px; color-scheme: dark; }
-  .recording.is-playing .recording-number, .recording.is-playing h3 { color: var(--accent-light); }
+  .recording.is-playing .recording-number, .recording.is-playing :is(h3, h4) { color: var(--accent-light); }
 
   .faq-section { display: grid; grid-template-columns: 1fr 1.4fr; gap: 70px; }
   .faq-section .section-heading > p:last-child { margin-top: 22px; color: var(--muted); }

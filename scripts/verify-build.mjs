@@ -21,6 +21,8 @@ for(const [file,$] of cache){
   check($('title').length===1&&$('title').text().length>5,`${relative}: missing title`);
   check($('meta[name=description]').attr('content')?.length>15,`${relative}: missing description`);
   check($('h1').length===1,`${relative}: expected one H1, got ${$('h1').length}`);
+  check($('[id="0"]').length===1&&$('[id="0"]').parent().is('body')&&$('[id="0"]').nextAll('header.site-header').length===1,`${relative}: back-to-top target must precede the sticky header`);
+  check($('.back-top').attr('href')==='#0',`${relative}: back-to-top link lost its target`);
   check($('link[rel=canonical]').length===1,`${relative}: expected one canonical`);
   const canonical=$('link[rel=canonical]').attr('href')||'';
   check(canonical.startsWith(baseline.domain+'/'),`${relative}: canonical lost original domain`);

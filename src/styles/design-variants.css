@@ -18,14 +18,14 @@
   }
   html[data-design] body { padding-bottom: var(--design-panel-height); line-height: 1.8; }
   html[data-design] ::selection { background: #ddd; color: #111; }
-  html[data-design] :is(h1, h2, h3) { font-family: var(--display); font-weight: var(--heading-weight); letter-spacing: var(--heading-tracking); font-style: normal; }
+  html[data-design] :is(h1, h2, h3, h4) { font-family: var(--display); font-weight: var(--heading-weight); letter-spacing: var(--heading-tracking); font-style: normal; }
   html[data-design] h2 { font-size: var(--section-title-size); line-height: 1.15; }
-  html[data-design] :is(h1, h2, h3) em { font-style: normal; color: inherit; }
+  html[data-design] :is(h1, h2, h3, h4) em { font-style: normal; color: inherit; }
   html[data-design] :is(.hero h1, .document-header h1) { font-size: var(--title-size); line-height: 1.15; }
   html[data-design] .hero-location { color: var(--muted); font-size: .75em; }
   html[data-design] .hero-copy { padding-block: 32px 38px; }
   html[data-design] .hero-description { margin-top: 18px; line-height: 1.8; }
-  html[data-design] :is(.audience h3, .trial-row h3, .ten-card h3, .recording h3) { font-size: var(--small-title-size); line-height: 1.25; }
+  html[data-design] :is(.audience h3, .trial-row h3, .ten-card h3, .recording h3, .recording h4) { font-size: var(--small-title-size); line-height: 1.25; }
   html[data-design] .audience h3 { min-height: 62px; }
   html[data-design] .eyebrow { text-transform: none; letter-spacing: .04em; }
   html[data-design] .wordmark > span { font-family: var(--display); letter-spacing: -.025em; font-weight: var(--heading-weight); }
@@ -45,7 +45,7 @@
 
   html[data-design] :is(.music-section, .standalone-music) { background: var(--music-bg); color: var(--music-ink); }
   html[data-design] :is(.music-header .eyebrow, .music-header .text-link, .music-story figcaption, .music-story p:not(.lead), .music-story .text-link, .recordings-heading, .recording-number, .recording p, .standalone-music .document-header > .eyebrow, .standalone-music .document-header > .lead) { color: var(--music-muted); }
-  html[data-design] :is(.recording.is-playing h3, .recording.is-playing .recording-number, .music-section a:hover, .standalone-music .document-back) { color: var(--music-ink); }
+  html[data-design] :is(.recording.is-playing h3, .recording.is-playing h4, .recording.is-playing .recording-number, .music-section a:hover, .standalone-music .document-back) { color: var(--music-ink); }
   html[data-design] .recording { border-color: var(--music-line); }
   html[data-design] .recording audio { color-scheme: var(--audio-scheme); }
 

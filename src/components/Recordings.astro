@@ -1,12 +1,13 @@
 ---
 import {recordings,pathTo,type Language} from '../lib/site';
-interface Props {lang?:Language; compact?:boolean}
-const {lang='de'}=Astro.props;
+interface Props {lang?:Language; compact?:boolean; headingLevel?:3|4}
+const {lang='de',headingLevel=3}=Astro.props;
+const Heading=headingLevel===4?'h4':'h3';
 ---
 <div class="recordings">
   {recordings.map((recording,index)=><article class="recording">
     <span class="recording-number">0{index+1}</span>
-    <div class="recording-title"><h3>{recording.composer}</h3><p>{recording.work} · {recording.movement}</p></div>
+    <div class="recording-title"><Heading>{recording.composer}</Heading><p>{recording.work} · {recording.movement}</p></div>
     <audio controls preload="none" aria-label={`${recording.composer}: ${recording.work}, ${recording.movement}`}>
       <source src={pathTo(`/downloads/${recording.file}`)} type="audio/mpeg" />
       <a href={pathTo(`/downloads/${recording.file}`)}>{lang==='ko'?'오디오 다운로드':'Aufnahme herunterladen'}</a>
