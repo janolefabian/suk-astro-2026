@@ -8,6 +8,8 @@ const baseline=JSON.parse(await readFile(path.join(root,'docs/seo-baseline.json'
 // Explicitly approved removals; retain the historical migration baseline itself.
 const retiredRoutes=new Set(['/hallo-welt/','/category/allgemein/','/author/jacfab/']);
 const preservedRoutes=baseline.routes.filter(route=>!retiredRoutes.has(route));
+// Discovered in Search Console after the original inventory; restored from the old host.
+const recoveredAssets=['/downloads/jongsukkim_bio_kr.pdf'];
 const base=(process.env.BASE_PATH||'/').replace(/\/$/,'');
 const indexable=process.env.PUBLIC_INDEXABLE==='true';
 const errors=[];
@@ -19,6 +21,7 @@ const cache=new Map();
 for(const file of htmlFiles)cache.set(file,load(await readFile(file,'utf8')));
 for(const route of preservedRoutes){const file=path.join(dist,route,'index.html');check(await exists(file),`Missing original route: ${route}`);}
 for(const asset of baseline.assets)check(await exists(path.join(dist,asset)),`Missing original asset: ${asset}`);
+for(const asset of recoveredAssets)check(await exists(path.join(dist,asset)),`Missing recovered original asset: ${asset}`);
 for(const [file,$] of cache){
   const relative=path.relative(dist,file);
   const readable=$('body').clone();
